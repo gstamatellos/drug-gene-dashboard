@@ -31,12 +31,6 @@ It's designed as a lightweight, interactive tool for researchers, students, and 
 
 ---
 
-## Screenshot
-
-<img src="app.png" alt="Screenshot of app" width="600"/>
-
----
-
 ## Tech Stack
 
 - Python 3.10

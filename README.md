@@ -9,7 +9,7 @@ It's designed as a lightweight, interactive tool for researchers, students, and 
 ## Project Goals
 
 - Demonstrate how to integrate and visualize real biomedical data using public APIs
-- Build a user-friendly dashboard that supports both gene- and drug-based queries
+- Build a user-friendly dashboard that supports both gene/drug-based queries
 - Showcase practical bioinformatics skills relevant to healthcare and pharma R&D
 
 ---

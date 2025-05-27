@@ -37,7 +37,7 @@ It's designed as a lightweight, interactive tool for researchers, students, and 
 
 ---
 
-## 🧱 Tech Stack
+## Tech Stack
 
 - Python 3.10
 - Streamlit
@@ -46,7 +46,7 @@ It's designed as a lightweight, interactive tool for researchers, students, and 
 
 ---
 
-## ⚠️ Known Limitations
+## Known Limitations
 
 - Some gene or drug names may return no results depending on DGIdb’s current database.
 - The app depends on the API’s response and does not store or cache data.
@@ -54,7 +54,7 @@ It's designed as a lightweight, interactive tool for researchers, students, and 
 
 ---
 
-## 🛠 Setup Instructions
+## Setup Instructions
 
 ```bash
 # Clone the repository

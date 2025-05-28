@@ -57,19 +57,4 @@ These resources are used for educational and research purposes only. All tradema
 ---
 ## Setup Instructions
 
-```bash
-# Clone the repository
-git clone https://github.com/yourusername/pharmxplorer.git
-cd pharmxplorer
-
-# (Optional) Create and activate a virtual environment
-python3 -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the app
-streamlit run app.py
-
 

@@ -8,12 +8,12 @@ The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g.
 
 ## Key Features
 
-- 🔍 **Flexible search**: Query by either gene or drug name  
-- 📊 **Interactive results**: View and filter tabular data with interaction scores  
-- 📥 **Download support**: Export results as a `.csv` file  
-- 📈 **Visualizations**: Graphical summaries of drug–gene interactions  
-- 🌐 **Live API access**: Uses DGIdb’s GraphQL API for real-time data  
-- 🧬 **Pharmacogenomic Variant Annotations**: Display of clinically relevant gene variants from PharmGKB, including:
+-  **Flexible search**: Query by either gene or drug name  
+-  **Interactive results**: View and filter tabular data with interaction scores  
+-  **Download support**: Export results as a `.csv` file  
+-  **Visualizations**: Graphical summaries of drug–gene interactions  
+-  **Live API access**: Uses DGIdb’s GraphQL API for real-time data  
+-  **Pharmacogenomic Variant Annotations**: Display of clinically relevant gene variants from PharmGKB, including:
   - Gene and variant name
   - Drug affected
   - Phenotype (e.g., efficacy, toxicity)

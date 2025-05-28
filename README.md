@@ -1,50 +1,53 @@
-# Drug–Gene Interaction Dashboard
+# PharmXplorer: Drug–Gene Interaction Dashboard
 
-This Streamlit web app allows users to input either a **human gene name** (e.g., `TP53`, `BRCA1`) or a **drug name** (e.g., `Trastuzumab`, `Tamoxifen`) and retrieve known **drug–gene interactions** using the [DGIdb](https://dgidb.org/) API.
+PharmXplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb (Drug–Gene Interaction Database) GraphQL API.
 
-It's designed as a lightweight, interactive tool for researchers, students, and healthcare professionals working in pharmacogenomics, precision medicine, and bioinformatics.
-
----
-
-## Project Goals
-
-- Demonstrate how to integrate and visualize real biomedical data using public APIs
-- Build a user-friendly dashboard that supports both gene/drug-based queries
-- Showcase practical bioinformatics skills relevant to healthcare and pharma R&D
+The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g., `Trastuzumab`, `Tamoxifen`) and retrieve known interaction partners, along with corresponding interaction scores and types. It offers a lightweight, interactive interface suitable for research, education, and exploratory analysis in pharmacogenomics, bioinformatics, and precision medicine.
 
 ---
 
-## Features
+## 🔍 Key Features
 
-- **Search drug–gene interactions by gene or drug name**
-- View interaction results in a clean, sortable table
-- **Download results** as a `.csv` file
-- Visual summaries of interaction types (e.g., inhibitors, antagonists)
-- Built with Python, Streamlit, Pandas, and the DGIdb GraphQL API
+- Flexible search: Query by either gene or drug name  
+- Interactive results: View and filter tabular data with interaction scores  
+- Download support: Export results as a `.csv` file  
+- Visualizations:  
+  - Bar and pie charts of top interactions  
+  - Summary of common interaction types  
+- Live API access: Uses DGIdb’s GraphQL API for real-time data  
 
 ---
 
 ## Example Use Cases
 
-- A **researcher** wants to explore all drugs interacting with the gene `TP53`.
-- A **pharmacogenomics analyst** wants to find all genes targeted by the drug `Tamoxifen`.
+- A researcher exploring therapeutic targets of a cancer-associated gene  
+- A bioinformatician validating gene–drug associations in a pharmacogenomics dataset  
+- A clinician or student investigating known drug–gene interactions for educational purposes  
 
 ---
 
 ## Tech Stack
 
-- Python 3.10
-- Streamlit
-- Pandas
-- DGIdb GraphQL API
+- Python 3.10+  
+- Streamlit  
+- Pandas  
+- Matplotlib & Seaborn  
+- DGIdb GraphQL API  
 
 ---
 
-## Known Limitations
+## App Structure
 
-- Some gene or drug names may return no results depending on DGIdb’s current database.
-- The app depends on the API’s response and does not store or cache data.
-- Matching is case-sensitive and follows official gene (HGNC) and drug naming conventions.
+The application has three main pages:
+
+1. **Home**  
+   Input a gene or drug name and trigger the search using the DGIdb API.
+
+2. **Interaction Table**  
+   View retrieved interaction data, summary statistics, and download the results as a CSV file.
+
+3. **Interaction Visuals**  
+   Display plots of top-scoring interactions and explore interaction types.
 
 ---
 
@@ -52,15 +55,16 @@ It's designed as a lightweight, interactive tool for researchers, students, and 
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/drug-gene-dashboard.git
-cd drug-gene-dashboard
+git clone https://github.com/yourusername/pharmxplorer.git
+cd pharmxplorer
 
-# Set up virtual environment (optional)
+# (Optional) Create and activate a virtual environment
 python3 -m venv venv
-source venv/bin/activate  # or venv\Scripts\activate on Windows
+source venv/bin/activate  # Windows: venv\Scripts\activate
 
-# Install required packages
+# Install dependencies
 pip install -r requirements.txt
 
-# Launch the app
+# Run the app
 streamlit run app.py
+

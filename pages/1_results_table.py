@@ -29,11 +29,12 @@ st.subheader("Search Summary")
 if mode == "Gene":
     top_drug = df.sort_values("Score", ascending=False).iloc[0]["Drug"]
     st.markdown(f"""
-    **Gene Searched**: `{input_val}`  
-    **Number of interacting drugs**: `{len(df)}`  
-    **Top scoring drug**: `{top_drug}`  
+    **Gene Searched**: `{input_val}` 
     🔗 [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene={input_val})  
     🔗 [NCBI](https://www.ncbi.nlm.nih.gov/gene/?term={input_val})
+    **Number of interacting drugs**: `{len(df)}`  
+    **Top scoring drug**: `{top_drug}`  
+
     """)
 else:
     top_gene = df.sort_values("Score", ascending=False).iloc[0]["Gene"]

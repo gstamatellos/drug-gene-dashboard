@@ -5,8 +5,7 @@ import json
 
 st.set_page_config(page_title="PharmXplorer", layout="wide")
 
-st.title("🔬 Welcome to Drug ↔️ Gene Interaction Explorer")
-st.markdown("---")
+st.title("Welcome to Drug ⇄ Gene Interaction Explorer")
 
 st.markdown("""
 This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API.

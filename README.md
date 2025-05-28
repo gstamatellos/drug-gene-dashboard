@@ -16,14 +16,6 @@ The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g.
 
 ---
 
-## Example Use Cases
-
-- A researcher exploring therapeutic targets of a cancer-associated gene  
-- A bioinformatician validating gene–drug associations in a pharmacogenomics dataset  
-- A clinician or student investigating known drug–gene interactions for educational purposes  
-
----
-
 ## Tech Stack
 
 - Python 3.10+  

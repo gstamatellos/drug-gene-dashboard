@@ -56,14 +56,14 @@ st.dataframe(df, use_container_width=True)
 # Download button
 st.download_button("📥 Download as CSV", df.to_csv(index=False), file_name="interaction_data.csv")
 
-# Spacer
-st.markdown("---")
 
 pharm_df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
 
 drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
 
 if drug_name:
+    # Spacer
+    st.markdown("---")
     pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]
 
     if not pharm_subset.empty:

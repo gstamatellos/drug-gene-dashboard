@@ -41,6 +41,20 @@ The application has three main pages:
 
 ---
 
+## Data and Resource Attribution
+
+This application uses publicly available data and resources from the following databases:
+
+- **DGIdb (Drug–Gene Interaction Database)** — [https://dgidb.org](https://dgidb.org)  
+- **NCBI (National Center for Biotechnology Information)** — [https://www.ncbi.nlm.nih.gov](https://www.ncbi.nlm.nih.gov)  
+- **GeneCards** — [https://www.genecards.org](https://www.genecards.org)
+- **DrugBank** — [https://go.drugbank.com](https://go.drugbank.com)
+- **PubChem** — [https://pubchem.ncbi.nlm.nih.gov](https://pubchem.ncbi.nlm.nih.gov) 
+
+These resources are used for educational and research purposes only. All trademarks, logos, and data remain the property of their respective owners. Please refer to each database’s terms of use for more information.
+
+
+---
 ## Setup Instructions
 
 ```bash
@@ -57,4 +71,5 @@ pip install -r requirements.txt
 
 # Run the app
 streamlit run app.py
+
 

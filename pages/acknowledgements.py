@@ -12,6 +12,4 @@ This application uses publicly available data and resources from the following d
 - **PubChem** — [https://pubchem.ncbi.nlm.nih.gov](https://pubchem.ncbi.nlm.nih.gov)
 
 These resources are used for educational and research purposes only.  
-All trademarks, logos, and data remain the property of their respective owners.  
-Please refer to each database’s terms of use for more information.
 """)

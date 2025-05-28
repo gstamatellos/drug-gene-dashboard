@@ -59,7 +59,7 @@ st.download_button("📥 Download as CSV", df.to_csv(index=False), file_name="in
 # Spacer
 st.markdown("---")
 
-pharm_df = pd.read_csv("pages/clinical_annotations.tsv", sep="\t")
+pharm_df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
 
 drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
 
@@ -76,7 +76,7 @@ if drug_name:
         st.download_button(
         label="📥 Download as TSV",
         data=pharm_subset.to_csv(index=False, sep='\t'),
-        file_name="clinical_annotations.tsv",
+        file_name= "clinical_annotations.tsv",
         mime="text/tab-separated-values"
     )
 

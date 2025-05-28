@@ -12,8 +12,6 @@ The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g.
 - Interactive results: View and filter tabular data with interaction scores  
 - Download support: Export results as a `.csv` file  
 - Visualizations:  
-  - Bar and pie charts of top interactions  
-  - Summary of common interaction types  
 - Live API access: Uses DGIdb’s GraphQL API for real-time data  
 
 ---

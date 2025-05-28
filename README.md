@@ -6,7 +6,7 @@ The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g.
 
 ---
 
-## 🔍 Key Features
+## Key Features
 
 - Flexible search: Query by either gene or drug name  
 - Interactive results: View and filter tabular data with interaction scores  

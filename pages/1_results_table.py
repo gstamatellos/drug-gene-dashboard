@@ -30,10 +30,10 @@ if mode == "Gene":
     top_drug = df.sort_values("Score", ascending=False).iloc[0]["Drug"]
     st.markdown(f"""
     **Gene Searched**: `{input_val}` 
-    🔗 [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene={input_val})  
-    🔗 [NCBI](https://www.ncbi.nlm.nih.gov/gene/?term={input_val})
     **Number of interacting drugs**: `{len(df)}`  
-    **Top scoring drug**: `{top_drug}`  
+    **Top scoring drug**: `{top_drug}`
+    🔗 [DrugBank](https://go.drugbank.com/unearth/q?query={top_drug}&searcher=drugs)  
+    🔗 [PubChem](https://pubchem.ncbi.nlm.nih.gov/#query={top_drug})
 
     """)
 else:
@@ -42,8 +42,8 @@ else:
     **Drug Searched**: `{input_val}`  
     **Number of interacting genes**: `{len(df)}`  
     **Top scoring gene**: `{top_gene}`  
-    🔗 [DrugBank](https://go.drugbank.com/unearth/q?query={input_val}&searcher=drugs)  
-    🔗 [PubChem](https://pubchem.ncbi.nlm.nih.gov/#query={input_val})
+    🔗 [GeneCards](https://www.genecards.org/cgi-bin/carddisp.pl?gene={top_gene})  
+    🔗 [NCBI](https://www.ncbi.nlm.nih.gov/gene/?term={top_gene})
     """)
 
 

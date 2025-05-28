@@ -45,8 +45,8 @@ The application has three main pages:
 
 This application uses publicly available data and resources from the following databases:
 
-- **DGIdb (Drug–Gene Interaction Database)** — [https://dgidb.org](https://dgidb.org)  
-- **NCBI (National Center for Biotechnology Information)** — [https://www.ncbi.nlm.nih.gov](https://www.ncbi.nlm.nih.gov)  
+- **DGIdb** — [https://dgidb.org](https://dgidb.org)  
+- **NCBI** — [https://www.ncbi.nlm.nih.gov](https://www.ncbi.nlm.nih.gov)  
 - **GeneCards** — [https://www.genecards.org](https://www.genecards.org)
 - **DrugBank** — [https://go.drugbank.com](https://go.drugbank.com)
 - **PubChem** — [https://pubchem.ncbi.nlm.nih.gov](https://pubchem.ncbi.nlm.nih.gov) 

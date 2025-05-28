@@ -6,7 +6,6 @@ import json
 st.set_page_config(page_title="PharmXplorer", layout="wide")
 
 st.title("🔬 Welcome to Drug ↔️ Gene Interaction Explorer")
-
 st.markdown("---")
 
 st.markdown("""

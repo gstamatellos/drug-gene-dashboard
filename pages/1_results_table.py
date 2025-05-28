@@ -68,6 +68,14 @@ if drug_name:
 
     if not pharm_subset.empty:
         st.subheader(f"Pharmacogenomic Variants for {drug_name}")
+        st.markdown("""
+        This table presents pharmacogenomic variant-drug associations along with clinical annotations to support personalized medicine applications. Each row describes a specific genetic variant or allele linked to drug response, including evidence levels and phenotype impacts.
+            -Variant/Alleles: Identifier of the genetic variant, using dbSNP rsIDs or allele names.
+            -Level of Evidence: Graded from 1A (highest) to 4, indicating the strength of clinical support based on PharmGKB guidelines.
+            -Score: Quantitative measure of clinical annotation confidence derived from supporting evidence.
+            -Phenotype Category: Type of drug response or outcome associated with the variant (e.g., toxicity, efficacy, dosage, metabolism/PK, pharmacodynamics, or other).
+            -Clinical Annotations: Description of observed phenotypes linked to the variant-drug combination, including disease associations or effects on drug response.
+        """)
         st.dataframe(pharm_subset[[
             "Gene", "Variant/Haplotypes", "Phenotype Category", "Level of Evidence", "Clinical Annotation", "Score"
         ]])

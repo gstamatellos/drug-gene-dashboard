@@ -11,7 +11,7 @@ st.markdown("""
 This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API.
 
 After searching, use the sidebar to explore:
-- **Results Table** 
+- **Results Tables** 
 - **Interaction Visuals** 
 """)
 

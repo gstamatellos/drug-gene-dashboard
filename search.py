@@ -24,7 +24,7 @@ if "gene_input" not in st.session_state:
 if "drug_input" not in st.session_state:
     st.session_state["drug_input"] = ""
 
-st.markdown("### ")
+st.markdown("---")
 
 # --- Mode select ---
 mode = st.radio("Select search mode:", ["Drug", "Gene"], index=0 if st.session_state["mode"] == "Drug" else 1, horizontal=True)

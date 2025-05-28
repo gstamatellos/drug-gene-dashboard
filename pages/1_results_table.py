@@ -29,10 +29,10 @@ st.subheader("Search Summary")
 if mode == "Gene":
     top_drug = df.sort_values("Score", ascending=False).iloc[0]["Drug"]
     st.markdown(f"""
-    **Gene Searched**: `{input_val}` 
+    **Gene Searched**: `{input_val}`   
     **Number of interacting drugs**: `{len(df)}`  
-    **Top scoring drug**: `{top_drug}`
-    🔗 [DrugBank](https://go.drugbank.com/unearth/q?query={top_drug}&searcher=drugs)  
+    **Top scoring drug**: `{top_drug}`  
+    🔗 [DrugBank](https://go.drugbank.com/unearth/q?query={top_drug}&searcher=drugs)    
     🔗 [PubChem](https://pubchem.ncbi.nlm.nih.gov/#query={top_drug})
 
     """)

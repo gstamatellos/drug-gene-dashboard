@@ -79,3 +79,59 @@ else:
     st.subheader(" Most Common Interaction Types")
     st.info("No interaction types information available.")
     st.stop()
+
+# --- Pharmacogenomic Associations Visuals ---
+st.markdown("---")
+st.subheader(" Pharmacogenomic Associations")
+
+# Check if pharm_subset_index is available and not empty
+if "pharm_subset_index" not in st.session_state or st.session_state["pharm_subset_index"] is None or st.session_state["pharm_subset_index"].empty:
+    st.info("No pharmacogenomics annotations available for this gene or drug.")
+    st.stop()
+
+pharm_df = st.session_state["pharm_subset_index"]
+
+st.markdown("### 1. Top Genes with Most Variant Annotations")
+gene_counts = pharm_df['Gene'].value_counts().head(10)
+fig1, ax1 = plt.subplots()
+sns.barplot(x=gene_counts.index, y=gene_counts.values, ax=ax1, palette="viridis")
+ax1.set_ylabel("Number of Variants")
+ax1.set_xlabel("Gene")
+ax1.set_title("Top 10 Genes by Variant Count")
+plt.xticks(rotation=45)
+st.pyplot(fig1)
+
+st.markdown("### 2. Phenotype Category Distribution")
+fig2, ax2 = plt.subplots()
+sns.countplot(data=pharm_df, x='Phenotype Category', order=pharm_df['Phenotype Category'].value_counts().index, palette="coolwarm", ax=ax2)
+ax2.set_title("Phenotype Categories Across Variants")
+plt.xticks(rotation=45)
+st.pyplot(fig2)
+
+st.markdown("### 3. Score Distribution by Phenotype Category")
+fig3, ax3 = plt.subplots()
+sns.boxplot(data=pharm_df, x='Phenotype Category', y='Score', palette="Set2", ax=ax3)
+ax3.set_title("Score Comparison Across Phenotype Categories")
+plt.xticks(rotation=45)
+st.pyplot(fig3)
+
+st.markdown("### 4. Heatmap: Gene vs. Phenotype Category")
+heatmap_data = pd.crosstab(pharm_df['Gene'], pharm_df['Phenotype Category'])
+fig4, ax4 = plt.subplots(figsize=(10, 6))
+sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
+ax4.set_title("Gene–Phenotype Heatmap")
+st.pyplot(fig4)
+
+st.markdown("### 5. Interactive Scatter Plot")
+import plotly.express as px
+fig5 = px.scatter(
+    pharm_df,
+    x='Variant/Haplotypes',
+    y='Score',
+    color='Phenotype Category',
+    hover_data=['Gene', 'Clinical Annotation'],
+    title="Pharmacogenomic Variants: Score Distribution"
+)
+fig5.update_layout(xaxis_title="Variant/Haplotype", yaxis_title="Score", height=600)
+st.plotly_chart(fig5)
+

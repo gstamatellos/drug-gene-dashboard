@@ -66,6 +66,7 @@ if drug_name:
     # Spacer
     st.markdown("---")
     pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]
+    pharm_subset_index = pharm_subset.reset_index(drop = True)
 
     if not pharm_subset.empty:
         st.subheader(f"Pharmacogenomic Variants for {drug_name}")
@@ -78,14 +79,14 @@ if drug_name:
         - **Clinical Annotations**: Description of observed phenotypes linked to the variant-drug combination, including disease associations or effects on drug response.
         """)
 
-        st.dataframe(pharm_subset[[
+        st.dataframe(pharm_subset_index[[
             "Gene", "Variant/Haplotypes", "Phenotype Category", "Level of Evidence", "Clinical Annotation", "Score"
         ]])
 
 # Download button
         st.download_button(
         label="📥 Download as TSV",
-        data=pharm_subset.to_csv(index=False, sep='\t'),
+        data=pharm_subset_index.to_csv(index=False, sep='\t'),
         file_name= "clinical_annotations.tsv",
         mime="text/tab-separated-values"
     )

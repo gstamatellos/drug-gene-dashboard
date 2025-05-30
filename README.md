@@ -53,7 +53,6 @@ The application includes four main pages:
    - Phenotype category distributions (e.g., efficacy, toxicity)  
    - Score distributions across phenotype categories  
    - Heatmaps of gene vs. phenotype category relationships  
-   - Interactive scatter plot of pharmacogenomic scores for the top 10 genes
 
 ---
 

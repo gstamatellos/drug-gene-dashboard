@@ -127,7 +127,7 @@ if mode == "Drug":
 
     st.markdown("### ")
     
-    st.markdown("### **3. Heatmap: Gene vs. Phenotype Category**")
+    st.markdown("### **3. Heatmap: Gene vs. Clinical Annotation**")
     top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
 
 # Filter the dataframe for only these top genes

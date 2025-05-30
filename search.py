@@ -12,7 +12,7 @@ This app allows you to search **drug–gene interactions** from the [DGIdb](http
 
 After searching, use the sidebar to explore:
 - **Results Tables** 
-- **Interaction Visuals** 
+- **Interaction - Annotation Visuals** 
 """)
 
 # --- Initialize session state for inputs ---

@@ -81,7 +81,7 @@ else:
 # --- Pharmacogenomic Associations Visuals ---
 
 st.markdown("---")
-st.subheader(f"Pharmacogenomic Associations for {drug_input}")
+st.subheader(f"Pharmacogenomic Associations for {drug_name}")
 
 
 if mode == "Drug":

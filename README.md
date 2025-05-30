@@ -44,7 +44,7 @@ The application includes four main pages:
 2. **Interaction Table**  
    View and explore interaction results from DGIdb, including interaction scores and download options.
 
-3. **Interaction Visuals**  
+3. **Interaction Visuals - Pharamcogenomic Variants**  
    View bar charts and distribution plots summarizing drug–gene interactions, including interaction types and partners.
 
 4. **Variant Annotations** (NEW)  

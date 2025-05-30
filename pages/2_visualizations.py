@@ -133,6 +133,13 @@ if mode == "Drug":
     fig4, ax4 = plt.subplots(figsize=(10, 6))
     sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
     ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap")
+   # Make x-axis labels bold
+    for label in ax4.get_xticklabels():
+        label.set_fontweight('bold')
+
+    # Make y-axis labels bold
+    for label in ax4.get_yticklabels():
+        label.set_fontweight('bold')
     st.pyplot(fig4)
 else:
     st.info("No pharmacogenomic annotations available for gene searches.")

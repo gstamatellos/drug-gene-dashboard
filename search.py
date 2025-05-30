@@ -36,9 +36,6 @@ if mode == "Drug":
 else:
     input_val = st.text_input("Enter Gene name:", value=st.session_state["gene_input"]).strip().upper()
 
-if mode == "Drug" and matched_type == "gene":
-    st.warning(f"Note: '{input_value}' appears to be a gene, not a drug. Please switch to 'Gene' mode for more accurate results.")
-
 # --- On search button click ---
 if st.button("Search") and input_val:
     

@@ -59,8 +59,7 @@ st.pyplot(fig1)
 
 
 # Spacer between plots
-st.markdown("### ")
-
+st.markdown("---")
 # interaction types
 types = []
 for node in st.session_state.get("results", {}).get("data", {}).get("genes", {}).get("nodes", []):
@@ -101,6 +100,8 @@ if mode == "Drug":
     plt.xticks(rotation=45)
     st.pyplot(fig1)
 
+    st.markdown("### ")
+    
     st.markdown("### 2. Phenotype Category Distribution")
     fig2, ax2 = plt.subplots()
     sns.countplot(data=pharm_subset_index, x='Phenotype Category', order=pharm_subset_index['Phenotype Category'].value_counts().index, palette="coolwarm", ax=ax2)
@@ -108,6 +109,8 @@ if mode == "Drug":
     plt.xticks(rotation=45)
     st.pyplot(fig2)
 
+    st.markdown("### ")
+    
     st.markdown("### 3. Score Distribution by Phenotype Category")
     fig3, ax3 = plt.subplots()
     sns.boxplot(data=pharm_subset_index, x='Phenotype Category', y='Score', palette="Set2", ax=ax3)
@@ -115,6 +118,8 @@ if mode == "Drug":
     plt.xticks(rotation=45)
     st.pyplot(fig3)
 
+    st.markdown("### ")
+    
     st.markdown("### 4. Heatmap: Gene vs. Phenotype Category")
     heatmap_data = pd.crosstab(pharm_subset_index['Gene'], pharm_subset_index['Phenotype Category'])
     fig4, ax4 = plt.subplots(figsize=(10, 6))
@@ -122,6 +127,8 @@ if mode == "Drug":
     ax4.set_title("Gene–Phenotype Heatmap")
     st.pyplot(fig4)
 
+    st.markdown("### ")
+    
     st.markdown("### 5. Interactive Scatter Plot")
     import plotly.express as px
     fig5 = px.scatter(

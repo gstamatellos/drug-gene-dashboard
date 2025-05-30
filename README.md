@@ -52,7 +52,7 @@ The application includes four main pages:
    - Top 10 genes with the most variant annotations  
    - Phenotype category distributions (e.g., efficacy, toxicity)  
    - Score distributions across phenotype categories  
-   - Heatmaps of gene vs. phenotype category relationships  
+   - Heatmaps of gene vs. Clinical Annotation relationships  
 
 ---
 

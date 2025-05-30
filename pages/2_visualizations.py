@@ -79,7 +79,7 @@ else:
     st.info("No interaction types information available.")
 
 # --- Pharmacogenomic Associations Visuals ---
-
+drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
 st.markdown("---")
 st.subheader(f"Pharmacogenomic Associations for {drug_name}")
 

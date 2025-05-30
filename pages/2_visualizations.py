@@ -82,6 +82,8 @@ else:
 
 st.markdown("---")
 st.subheader("Pharmacogenomic Associations")
+pharm_df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
+drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
 pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]
 pharm_subset_index = pharm_subset.reset_index(drop = True)
 st.session_state["pharm_subset_index"] = pharm_subset_index

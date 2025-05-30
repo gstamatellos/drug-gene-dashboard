@@ -67,6 +67,7 @@ if drug_name:
     st.markdown("---")
     pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]
     pharm_subset_index = pharm_subset.reset_index(drop = True)
+    st.session_state["pharm_subset_index"] = pharm_subset_index
 
     if not pharm_subset.empty:
         st.subheader(f"Pharmacogenomic Variants for {drug_name}")

@@ -78,7 +78,6 @@ if types:
 else:
     st.subheader(" Most Common Interaction Types")
     st.info("No interaction types information available.")
-    st.stop()
 
 # --- Pharmacogenomic Associations Visuals ---
 

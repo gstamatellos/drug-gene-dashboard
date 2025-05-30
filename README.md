@@ -47,7 +47,7 @@ The application includes four main pages:
 3. **Interaction Visuals - Pharamcogenomic Variants**  
    View bar charts and distribution plots summarizing drug–gene interactions, including interaction types and partners.
 
-4. **Variant Annotations** (NEW)  
+   **Variant Annotations** (NEW)  
    Visualize curated clinical annotations from PharmGKB related to drug–gene–variant relationships:
    - Top 10 genes with the most variant annotations  
    - Phenotype category distributions (e.g., efficacy, toxicity)  

@@ -39,7 +39,7 @@ top_df = df.sort_values("Score", ascending=False).head(top_n)
 
 
 # Barplot
-st.markdown("#### Barplot")
+st.markdown("#### **Barplot**")
 fig2, ax2 = plt.subplots(figsize=(10, 6))
 sns.barplot(data=top_df, x="Score", y=label_col, palette="mako", ax=ax2)
 ax2.set_xlabel("Interaction Score")
@@ -50,7 +50,7 @@ st.pyplot(fig2)
 st.markdown("### ")
 
 # Pie Chart
-st.markdown("#### Pie Chart")
+st.markdown("#### **Pie Chart**")
 fig1, ax1 = plt.subplots()
 colors = sns.color_palette("pastel", len(top_df))  
 ax1.pie(top_df["Score"], labels=top_df[label_col], autopct="%1.1f%%", startangle=90, colors=colors)
@@ -95,7 +95,7 @@ if mode == "Drug":
         st.info("No pharmacogenomics annotations available for this drug.")
         
 
-    st.markdown("### 1. Top Genes with Most Variant Annotations")
+    st.markdown("### **1. Top Genes with Most Variant Annotations**")
     gene_counts = pharm_subset_index['Gene'].value_counts().head(10)
     fig1, ax1 = plt.subplots()
     sns.barplot(x=gene_counts.index, y=gene_counts.values, ax=ax1, palette="viridis")
@@ -107,7 +107,7 @@ if mode == "Drug":
 
     st.markdown("### ")
     
-    st.markdown("### 2. Phenotype Category Distribution")
+    st.markdown("### **2. Phenotype Category Distribution**")
     fig2, ax2 = plt.subplots()
     sns.countplot(
     data=pharm_subset_index,
@@ -126,7 +126,7 @@ if mode == "Drug":
 
     st.markdown("### ")
     
-    st.markdown("### 3. Heatmap: Gene vs. Phenotype Category")
+    st.markdown("### **3. Heatmap: Gene vs. Phenotype Category**")
     top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
 
 # Filter the dataframe for only these top genes

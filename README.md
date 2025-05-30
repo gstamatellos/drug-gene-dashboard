@@ -1,19 +1,24 @@
 # PharmXplorer: Drug–Gene Interaction Dashboard
 
-PharmXplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb (Drug–Gene Interaction Database) GraphQL API, now extended with **pharmacogenomic variant annotations** from **PharmGKB**.
+PharmXplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb GraphQL API, now extended with pharmacogenomic variant annotations from PharmGKB.
 
-The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g., `Trastuzumab`, `Tamoxifen`) and retrieve known interaction partners, along with corresponding interaction scores, types, and pharmacogenomic insights. It offers a lightweight, interactive interface suitable for research, education, and exploratory analysis in pharmacogenomics, bioinformatics, and precision medicine.
+Users can input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g., `Clopidogrel`, `Tamoxifen`) and retrieve known interaction partners, along with interaction scores, types, and pharmacogenomic insights. It provides an interactive, lightweight interface suitable for bioinformatics, precision medicine, research, and education in pharmacogenomics.
 
 ---
 
 ## Key Features
 
--  **Flexible search**: Query by either gene or drug name  
--  **Interactive results**: View and filter tabular data with interaction scores  
--  **Download support**: Export results as a `.csv` file  
--  **Visualizations**: Graphical summaries of drug–gene interactions  
--  **Live API access**: Uses DGIdb’s GraphQL API for real-time data  
--  **Pharmacogenomic Variant Annotations**: Display of clinically relevant gene variants from PharmGKB
+- Flexible search: Query by gene or drug name  
+- Interactive tables: View and filter DGIdb results  
+- Download support: Export results as `.csv`  
+- Visual summaries: Graphs of drug–gene interaction types  
+- Live API: Real-time data from the DGIdb GraphQL API  
+- Pharmacogenomic Annotations: Clinical variant data from PharmGKB  
+- New visual analytics:
+  - Barplot of genes with the most variants  
+  - Phenotype category distributions  
+  - Score distribution by phenotype  
+  - Gene–phenotype heatmap
 
 ---
 
@@ -22,42 +27,48 @@ The app allows users to input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g.
 - Python 3.10+  
 - Streamlit  
 - Pandas  
-- Matplotlib & Seaborn  
+- Seaborn & Matplotlib  
+- Plotly Express  
 - DGIdb GraphQL API  
-- PharmGKB TSV data  
+- PharmGKB TSV data
 
 ---
 
 ## App Structure
 
-The application has four main pages:
+The application includes four main pages:
 
 1. **Home**  
-   Input a gene or drug name and trigger the search using the DGIdb API.
+   Search by entering a drug or gene name and choosing a search mode.
 
 2. **Interaction Table**  
-   View retrieved interaction data, summary statistics, and download the results as a CSV file.
+   View and explore interaction results from DGIdb, including interaction scores and download options.
 
 3. **Interaction Visuals**  
-   Display plots of top-scoring interactions and explore interaction types.
+   View bar charts and distribution plots summarizing drug–gene interactions, including interaction types and partners.
 
-4. **Variant Annotations** *(NEW)*  
-   Visualize curated clinical annotations from PharmGKB related to gene–drug interactions, including variant-specific efficacy and toxicity information.
+4. **Variant Annotations** (NEW)  
+   Visualize curated clinical annotations from PharmGKB related to drug–gene–variant relationships:
+   - Top 10 genes with the most variant annotations  
+   - Phenotype category distributions (e.g., efficacy, toxicity)  
+   - Score distributions across phenotype categories  
+   - Heatmaps of gene vs. phenotype category relationships  
+   - Interactive scatter plot of pharmacogenomic scores for the top 10 genes
 
 ---
 
-## Data and Resource Attribution
+## Data & Attribution
 
-This application uses publicly available data and resources from the following databases:
+This app integrates open-access data from:
 
-- **DGIdb** — [https://dgidb.org](https://dgidb.org)  
-- **PharmGKB** — [https://www.pharmgkb.org](https://www.pharmgkb.org)  
-- **NCBI** — [https://www.ncbi.nlm.nih.gov](https://www.ncbi.nlm.nih.gov)  
-- **GeneCards** — [https://www.genecards.org](https://www.genecards.org)  
-- **DrugBank** — [https://go.drugbank.com](https://go.drugbank.com)  
-- **PubChem** — [https://pubchem.ncbi.nlm.nih.gov](https://pubchem.ncbi.nlm.nih.gov)
+- [DGIdb](https://dgidb.org) — Drug–Gene Interaction Database  
+- [PharmGKB](https://www.pharmgkb.org) — Pharmacogenomics Knowledgebase  
+- [NCBI](https://www.ncbi.nlm.nih.gov)  
+- [GeneCards](https://www.genecards.org)  
+- [DrugBank](https://go.drugbank.com)  
+- [PubChem](https://pubchem.ncbi.nlm.nih.gov)
 
-These resources are used for educational and research purposes only. All trademarks, logos, and data remain the property of their respective owners. Please refer to each database’s terms of use for more information.
+All content is used for educational and research purposes only. Please consult each provider’s terms of use for more information.
 
 ---
 ## Setup Instructions

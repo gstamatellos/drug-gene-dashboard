@@ -42,7 +42,7 @@ The application includes four main pages:
    Search by entering a drug or gene name and choosing a search mode.
 
 2. **Interaction Table**  
-   View and explore interaction results from DGIdb, including interaction scores and download options.
+   View and explore interaction results from DGIdb, pharmacogenomic variant-drug associations from PharmGKB.
 
 3. **Interaction Visuals - Pharamcogenomic Variants**  
    View bar charts and distribution plots summarizing drug–gene interactions, including interaction types and partners.

@@ -108,7 +108,6 @@ if mode == "Drug":
     st.markdown("### ")
     
     st.markdown("### 2. Phenotype Category Distribution")
-
     fig2, ax2 = plt.subplots()
     sns.countplot(
     data=pharm_subset_index,
@@ -118,19 +117,24 @@ if mode == "Drug":
     ax=ax2
     )
 
-    # Bold title and axis labels
+# Bold the title and axis labels
     ax2.set_title("Phenotype Categories Across Variants", fontweight='bold')
     ax2.set_xlabel("Phenotype Category", fontweight='bold')
     ax2.set_ylabel("Count", fontweight='bold')
-
     plt.xticks(rotation=45)
     st.pyplot(fig2)
 
 
+# Bold title and axis labels
+    ax2.set_title("Phenotype Categories Across Variants", fontweight='bold')
+    ax2.set_xlabel("Phenotype Category", fontweight='bold')
+    ax2.set_ylabel("Count", fontweight='bold')
+    plt.xticks(rotation=45)
+    st.pyplot(fig2)
+
     st.markdown("### ")
     
     st.markdown("### 3. Heatmap: Gene vs. Phenotype Category")
-
     top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
 
 # Filter the dataframe for only these top genes
@@ -147,9 +151,7 @@ if mode == "Drug":
     ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap", fontweight='bold')
     ax4.set_xlabel("Phenotype Category", fontweight='bold')
     ax4.set_ylabel("Gene", fontweight='bold')
-
     st.pyplot(fig4)
-
 
 else:
     st.info("No pharmacogenomic annotations available for gene searches.")

@@ -81,10 +81,11 @@ else:
     st.stop()
 
 # --- Pharmacogenomic Associations Visuals ---
-if mode == "Drug":
-    st.markdown("---")
-    st.subheader("Pharmacogenomic Associations")
 
+st.markdown("---")
+st.subheader("Pharmacogenomic Associations")
+
+if mode == "Drug":
     # Check if pharm_subset_index is available and not empty
     pharm_subset_index = st.session_state.get("pharm_subset_index")
     if pharm_subset_index is None or pharm_subset_index.empty:
@@ -116,7 +117,7 @@ if mode == "Drug":
     st.pyplot(fig3)
 
     st.markdown("### 4. Heatmap: Gene vs. Phenotype Category")
-    heatmap_data = pd.crosstab(pharm_df['Gene'], pharm_subset_index['Phenotype Category'])
+    heatmap_data = pd.crosstab(pharm_subset_index['Gene'], pharm_subset_index['Phenotype Category'])
     fig4, ax4 = plt.subplots(figsize=(10, 6))
     sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
     ax4.set_title("Gene–Phenotype Heatmap")
@@ -135,6 +136,5 @@ if mode == "Drug":
     fig5.update_layout(xaxis_title="Variant/Haplotype", yaxis_title="Score", height=600)
     st.plotly_chart(fig5)
 else:
-    st.subheader("Pharmacogenomic Associations")
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()

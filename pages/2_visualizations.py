@@ -143,15 +143,6 @@ if mode == "Drug":
     sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
     ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap")
     st.pyplot(fig4)
-
-    
-    st.markdown("### ")
-    
-    st.markdown("### 5. Interactive Scatter Plot: Top 10 Genes")
-
-    # Get top 10 genes based on annotation count
-    top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
-    filtered_df = pharm_subset_index[pharm_subset_index['Gene'].isin(top_genes)]
 else:
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()

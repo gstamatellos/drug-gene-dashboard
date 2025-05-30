@@ -108,11 +108,24 @@ if mode == "Drug":
     st.markdown("### ")
     
     st.markdown("### 2. Phenotype Category Distribution")
+
     fig2, ax2 = plt.subplots()
-    sns.countplot(data=pharm_subset_index, x='Phenotype Category', order=pharm_subset_index['Phenotype Category'].value_counts().index, palette="coolwarm", ax=ax2)
-    ax2.set_title("Phenotype Categories Across Variants")
+    sns.countplot(
+    data=pharm_subset_index,
+    x='Phenotype Category',
+    order=pharm_subset_index['Phenotype Category'].value_counts().index,
+    palette="coolwarm",
+    ax=ax2
+    )
+
+    # Bold title and axis labels
+    ax2.set_title("Phenotype Categories Across Variants", fontweight='bold')
+    ax2.set_xlabel("Phenotype Category", fontweight='bold')
+    ax2.set_ylabel("Count", fontweight='bold')
+
     plt.xticks(rotation=45)
     st.pyplot(fig2)
+
 
     st.markdown("### ")
     

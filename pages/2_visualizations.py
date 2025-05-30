@@ -116,16 +116,7 @@ if mode == "Drug":
 
     st.markdown("### ")
     
-    st.markdown("### 3. Score Distribution by Phenotype Category")
-    fig3, ax3 = plt.subplots()
-    sns.boxplot(data=pharm_subset_index, x='Phenotype Category', y='Score', palette="Set2", ax=ax3)
-    ax3.set_title("Score Comparison Across Phenotype Categories")
-    plt.xticks(rotation=45)
-    st.pyplot(fig3)
-
-    st.markdown("### ")
-    
-    st.markdown("### 4. Heatmap: Gene vs. Phenotype Category")
+    st.markdown("### 3. Heatmap: Gene vs. Phenotype Category")
 
 
 

@@ -14,4 +14,5 @@ This application uses publicly available data and resources from the following d
   Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Minor formatting was applied for internal analysis.
 
 These resources are used for educational and research purposes only.
+Homepage image source: https://www.forbes.com/sites/johncumbers/2020/06/29/pharmas-dirty-secret-and-the-synthetic-biology-startup-offering-a-new-approach/
 """)

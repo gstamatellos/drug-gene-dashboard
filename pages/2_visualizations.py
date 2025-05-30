@@ -134,15 +134,15 @@ if mode == "Drug":
     top_genes_data = pharm_subset_index[pharm_subset_index['Gene'].isin(top_genes)]
 
 # Create crosstab for heatmap data
-    heatmap_data = pd.crosstab(top_genes_data['Gene'], top_genes_data['Phenotype Category'])
+    heatmap_data = pd.crosstab(top_genes_data['Gene'], top_genes_data['Clinical Annotation'])
 
 # Plot heatmap
     fig4, ax4 = plt.subplots(figsize=(10, 6))
     sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
 
 # Set bold title and axis labels
-    ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap", fontweight='bold')
-    ax4.set_xlabel("Phenotype Category", fontweight='bold')
+    ax4.set_title("Top 10 Genes vs Clinical Annotation Heatmap", fontweight='bold')
+    ax4.set_xlabel("Clinical Annotation", fontweight='bold')
     ax4.set_ylabel("Gene", fontweight='bold')
     st.pyplot(fig4)
 

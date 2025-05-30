@@ -89,7 +89,7 @@ if mode == "Drug":
     pharm_subset_index = st.session_state.get("pharm_subset_index")
     if pharm_subset_index is None or pharm_subset_index.empty:
         st.info("No pharmacogenomics annotations available for this drug.")
-        st.stop()
+        
 
     st.markdown("### 1. Top Genes with Most Variant Annotations")
     gene_counts = pharm_subset_index['Gene'].value_counts().head(10)

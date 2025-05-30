@@ -29,6 +29,9 @@ st.markdown("---")
 mode = st.radio("Select search mode:", ["Drug", "Gene"], index=0 if st.session_state["mode"] == "Drug" else 1, horizontal=True)
 st.session_state["mode"] = mode
 
+if mode == "Drug" and matched_type == "gene":
+    st.warning(f"Note: '{input_value}' appears to be a gene, not a drug. Please switch to 'Gene' mode for more accurate results.")
+
 # --- Input based on mode ---
 if mode == "Drug":
     input_val = st.text_input("Enter Drug name:", value=st.session_state["drug_input"]).strip().upper()

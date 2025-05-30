@@ -70,6 +70,7 @@ if drug_name:
 
     if not pharm_subset.empty:
         st.subheader(f"Pharmacogenomic Variants for {drug_name}")
+         st.session_state["pharm_subset_index"] = pharm_subset_index
         st.markdown("""
         This table presents pharmacogenomic variant-drug associations along with clinical annotations to support personalized medicine applications. 
 

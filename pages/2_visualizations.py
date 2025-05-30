@@ -118,29 +118,26 @@ if mode == "Drug":
     
     st.markdown("### 3. Heatmap: Gene vs. Phenotype Category")
 
-
-
-    # Calculate top 10 genes by occurrence
     top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
 
-    # Filter the dataframe for only these top genes
+# Filter the dataframe for only these top genes
     top_genes_data = pharm_subset_index[pharm_subset_index['Gene'].isin(top_genes)]
 
-    # Create crosstab for heatmap data
+# Create crosstab for heatmap data
     heatmap_data = pd.crosstab(top_genes_data['Gene'], top_genes_data['Phenotype Category'])
 
-    # Plot heatmap
+# Plot heatmap
     fig4, ax4 = plt.subplots(figsize=(10, 6))
     sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
-    ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap")
-   # Make x-axis labels bold
-    for label in ax4.get_xticklabels():
-        label.set_fontweight('bold')
 
-    # Make y-axis labels bold
-    for label in ax4.get_yticklabels():
-        label.set_fontweight('bold')
+# Set bold title and axis labels
+    ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap", fontweight='bold')
+    ax4.set_xlabel("Phenotype Category", fontweight='bold')
+    ax4.set_ylabel("Gene", fontweight='bold')
+
     st.pyplot(fig4)
+
+
 else:
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()

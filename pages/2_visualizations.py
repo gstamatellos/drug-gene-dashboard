@@ -152,18 +152,6 @@ if mode == "Drug":
     # Get top 10 genes based on annotation count
     top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
     filtered_df = pharm_subset_index[pharm_subset_index['Gene'].isin(top_genes)]
-
-    # Plot
-    fig5 = px.scatter(
-    filtered_df,
-    x='Variant/Haplotypes',
-    y='Score',
-    color='Phenotype Category',
-    hover_data=['Gene', 'Clinical Annotation'],
-    title="Top 10 Genes: Pharmacogenomic Variants and Score Distribution"
-    )
-    fig5.update_layout(xaxis_title="Variant/Haplotype", yaxis_title="Score", height=600)
-    st.plotly_chart(fig5)
 else:
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()

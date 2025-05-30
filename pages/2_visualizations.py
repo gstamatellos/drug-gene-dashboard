@@ -85,7 +85,7 @@ st.subheader("Pharmacogenomic Associations")
 
 if mode == "Drug":
     # Check if pharm_subset_index is available and not empty
-    pharm_subset_index = st.session_state.get("pharm_subset_index")
+    pharm_subset_index= st.session_state.get("pharm_subset_index")
     if pharm_subset_index is None or pharm_subset_index.empty:
         st.info("No pharmacogenomics annotations available for this drug.")
         

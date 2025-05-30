@@ -124,14 +124,6 @@ if mode == "Drug":
     plt.xticks(rotation=45)
     st.pyplot(fig2)
 
-
-# Bold title and axis labels
-    ax2.set_title("Phenotype Categories Across Variants", fontweight='bold')
-    ax2.set_xlabel("Phenotype Category", fontweight='bold')
-    ax2.set_ylabel("Count", fontweight='bold')
-    plt.xticks(rotation=45)
-    st.pyplot(fig2)
-
     st.markdown("### ")
     
     st.markdown("### 3. Heatmap: Gene vs. Phenotype Category")

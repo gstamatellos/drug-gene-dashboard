@@ -126,12 +126,25 @@ if mode == "Drug":
     st.markdown("### ")
     
     st.markdown("### 4. Heatmap: Gene vs. Phenotype Category")
-    heatmap_data = pd.crosstab(pharm_subset_index['Gene'], pharm_subset_index['Phenotype Category'])
+
+
+
+    # Calculate top 10 genes by occurrence
+    top_genes = pharm_subset_index['Gene'].value_counts().nlargest(10).index
+
+    # Filter the dataframe for only these top genes
+    top_genes_data = pharm_subset_index[pharm_subset_index['Gene'].isin(top_genes)]
+
+    # Create crosstab for heatmap data
+    heatmap_data = pd.crosstab(top_genes_data['Gene'], top_genes_data['Phenotype Category'])
+
+    # Plot heatmap
     fig4, ax4 = plt.subplots(figsize=(10, 6))
     sns.heatmap(heatmap_data, cmap="YlGnBu", annot=True, fmt="d", linewidths=.5, ax=ax4)
-    ax4.set_title("Gene–Phenotype Heatmap")
+    ax4.set_title("Top 10 Genes vs Phenotype Category Heatmap")
     st.pyplot(fig4)
 
+    
     st.markdown("### ")
     
     st.markdown("### 5. Interactive Scatter Plot: Top 10 Genes")

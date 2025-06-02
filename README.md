@@ -2,7 +2,7 @@
 
 PharmXplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb GraphQL API, now extended with pharmacogenomic variant annotations from PharmGKB.
 
-Users can input a human gene (e.g., `TP53`, `BRCA1`) or drug (e.g., `Clopidogrel`, `Tamoxifen`) and retrieve known interaction partners, along with interaction scores, types, and pharmacogenomic insights. It provides an interactive, lightweight interface suitable for bioinformatics, precision medicine, research, and education in pharmacogenomics.
+Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`, `Tamoxifen`) and retrieve known interaction partners, along with interaction scores, types, and pharmacogenomic insights. It provides an interactive, lightweight interface suitable for bioinformatics, precision medicine, research, and education in pharmacogenomics.
 
 ---
 

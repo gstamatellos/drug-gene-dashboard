@@ -67,7 +67,7 @@ This app integrates open-access data from:
 - [DrugBank](https://go.drugbank.com)  
 - [PubChem](https://pubchem.ncbi.nlm.nih.gov)
 
-All content is used for educational and research purposes only. Please consult each provider’s terms of use for more information.
+All content is used for educational and research purposes only.
 
 ---
 ## Setup Instructions

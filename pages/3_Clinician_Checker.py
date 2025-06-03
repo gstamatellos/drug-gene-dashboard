@@ -23,10 +23,12 @@ def load_annotations():
     df.columns = [
         "Gene",
         "Variant",
-        "Response",
+        "Drug",
+        "Phenotype",
         "Evidence Level",
     ]
     return df
+
 
 
 annotations_df = load_annotations()

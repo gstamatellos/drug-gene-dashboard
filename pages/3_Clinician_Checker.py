@@ -16,18 +16,14 @@ def load_annotations():
     df = df[[
         "Gene",
         "Variant/Haplotypes",
-        "Drug(s)",
         "Phenotype Category",
         "Level of Evidence",
-        "Clinical Annotation"
     ]]
     df.columns = [
         "Gene",
         "Variant",
-        "Drug",
-        "Phenotype",
+        "Response",
         "Evidence Level",
-        "Clinical Annotation"
     ]
     return df
 

@@ -1,7 +1,7 @@
 import streamlit as st
 
 st.markdown("""
-### *Coming soon:* Clinician Safety Checker  
+### **Coming soon:** Clinician Safety Checker  
 This tool helps clinicians assess **pharmacogenomic risks before prescribing a drug**, using clinical annotations from **PharmGKB**.
 
 ✅ Identify **gene-drug interactions** that affect **safety, dosing, or efficacy**  

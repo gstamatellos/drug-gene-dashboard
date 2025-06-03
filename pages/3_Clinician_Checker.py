@@ -73,18 +73,7 @@ if not matched.empty:
 
     st.success(f"Found {len(matched)} variant annotations for **{drug_input.title()}**")
 
-    # --- Color-coding for clinical relevance ---
-    def color_row(row):
-        color = ""
-        if row["Evidence Level"] in ["1A", "1B"]:
-            color = "background-color: #ffcccc"  # light red
-        elif "toxicity" in row["Response"].lower():
-            color = "background-color: #ffe0b2"  # light orange
-        elif "non-response" in row["Response"].lower():
-            color = "background-color: #ffffcc"  # light yellow
-        return [color] * len(row)
-
-    styled_df = matched.style.apply(color_row, axis=1)
+    # --- 
 
     st.dataframe(styled_df, use_container_width=True)
 

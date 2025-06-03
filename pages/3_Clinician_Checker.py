@@ -58,7 +58,7 @@ if not matched.empty:
 
     # --- Summary counts ---
     high_risk = matched[
-    (matched["Response"].str.lower().str.contains("toxicity")|
+    (matched["Response"].str.lower().str.contains("toxicity"))|
     (matched["Evidence Level"].isin(["1A", "1B"])) 
     ]
 

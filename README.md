@@ -6,7 +6,7 @@ Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`
 
  Check [PharmXplorer](https://pharmxplorer.streamlit.app/)
 
-**Note:** The app may take a while to load if it's been inactive !
+**Note:** Probably the app will be inactive, simply click the activate button. It may take a while to load!
 
 ---
 

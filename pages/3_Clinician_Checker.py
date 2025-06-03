@@ -6,7 +6,7 @@ st.title("Clinician Safety Checker")
 
 st.markdown("""
 Check if a prescribed **drug** has associated **genetic variants** that affect patient safety, efficacy, or dosing.  
-Data is sourced from **PharmGKB clinical annotations** (local file).
+Data is sourced from **PharmGKB clinical annotations**
 """)
 
 # --- Load data once ---
@@ -35,7 +35,7 @@ def load_annotations():
 annotations_df = load_annotations()
 
 # --- Input ---
-drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().lower()
+drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().upper()
 
 if st.button("Check Drug Safety") and drug_input:
     matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(drug_input)]

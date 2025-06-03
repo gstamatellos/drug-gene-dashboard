@@ -29,27 +29,32 @@ def load_annotations():
     ]
     return df
 
-
-
 annotations_df = load_annotations()
 
+# --- Initialize session state ---
+if "drug_input" not in st.session_state:
+    st.session_state.drug_input = ""
+if "matched_df" not in st.session_state:
+    st.session_state.matched_df = pd.DataFrame()
+
 # --- Input ---
-drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().lower()
+drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):", value=st.session_state.drug_input)
 
-if st.button("Check Drug Safety") and drug_input:
-    matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(drug_input)]
+if st.button("Check Drug Safety"):
+    st.session_state.drug_input = drug_input
+    matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(drug_input.strip().lower())]
+    st.session_state.matched_df = matched
 
-    if matched.empty:
-        st.warning(f"No variant annotations found for '{drug_input}'. Try another drug.")
-    else:
-        # Filters
-        with st.expander("Filter results"):
-            pheno_filter = st.multiselect("Phenotype category", options=matched["Response"].unique(), default=matched["Response"].unique())
-            level_filter = st.multiselect("Evidence level", options=matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
-            matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
+# --- Results and filters ---
+matched = st.session_state.matched_df
 
-        st.success(f"Found {len(matched)} variant annotations.")
-        st.dataframe(matched)
+if not matched.empty:
+    with st.expander("Filter results"):
+        pheno_filter = st.multiselect("Phenotype category", options=matched["Response"].unique(), default=matched["Response"].unique())
+        level_filter = st.multiselect("Evidence level", options=matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
+        matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
 
-        # Optional: Download
-        st.download_button("Download results as CSV", data=matched.to_csv(index=False), file_name=f"{drug_input}_variant_safety.csv")
+    st.success(f"Found {len(matched)} variant annotations.")
+    st.dataframe(matched)
+
+    st.download_button("Download results as CSV", data=matched.to_csv(index=False), file_name=f"{st.session_state.drug_input}_variant_safety.csv")

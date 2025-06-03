@@ -24,7 +24,7 @@ def load_annotations():
         "Gene",
         "Variant",
         "Drug",
-        "Phenotype",
+        "Response",
         "Evidence Level",
     ]
     return df
@@ -44,7 +44,7 @@ if st.button("Check Drug Safety") and drug_input:
     else:
         # Filters
         with st.expander("Filter results"):
-            pheno_filter = st.multiselect("Phenotype category", options=matched["Phenotype"].unique(), default=matched["Phenotype"].unique())
+            pheno_filter = st.multiselect("Phenotype category", options=matched["Response"].unique(), default=matched["Response"].unique())
             level_filter = st.multiselect("Evidence level", options=matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
             matched = matched[matched["Phenotype"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
 

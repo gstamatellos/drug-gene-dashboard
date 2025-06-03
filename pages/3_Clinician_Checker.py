@@ -24,7 +24,7 @@ def load_annotations():
         "Gene",
         "Variant",
         "Drug",
-        "Phenotype",
+        "Drug Response",
         "Evidence Level",
     ]
     return df

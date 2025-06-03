@@ -57,7 +57,10 @@ if not matched.empty:
         matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
 
     # --- Summary counts ---
-    high_risk = matched[matched["Evidence Level"].isin(["1A", "1B"]) | matched["Response"].str.contains("toxicity", case=False)]
+    high_risk = matched[
+    (matched["Evidence Level"].isin(["1A", "1B"])) |
+    (matched["Response"].str.contains("toxicity", case=False, na=False))
+    ]
     fatal_adr = matched[matched["Response"].str.contains("toxicity|fatal|hypersensitivity", case=False)]
     non_responders = matched[matched["Response"].str.contains("non-response|no response|resistance", case=False)]
 

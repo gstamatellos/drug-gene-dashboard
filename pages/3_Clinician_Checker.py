@@ -13,9 +13,24 @@ Data is sourced from **PharmGKB clinical annotations** (local file).
 @st.cache_data
 def load_annotations():
     df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
-    df = df[["Gene", "Variant", "Drug", "Phenotype Category", "Evidence Level", "Annotation Text"]]
-    df.columns = ["Gene", "Variant", "Drug", "Phenotype", "Evidence Level", "Clinical Annotation"]
+    df = df[[
+        "Gene",
+        "Variant/Haplotypes",
+        "Drug(s)",
+        "Phenotype Category",
+        "Level of Evidence",
+        "Clinical Annotation"
+    ]]
+    df.columns = [
+        "Gene",
+        "Variant",
+        "Drug",
+        "Phenotype",
+        "Evidence Level",
+        "Clinical Annotation"
+    ]
     return df
+
 
 annotations_df = load_annotations()
 

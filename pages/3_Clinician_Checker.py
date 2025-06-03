@@ -57,11 +57,7 @@ if not matched.empty:
         matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
 
     # --- Summary counts ---
-    high_risk = matched[
-    (matched["Response"].str.lower().str.contains("toxicity"))|
-    (matched["Evidence Level"].isin(["1A", "1B"])) 
-    ]
-
+    high_risk = matched[matched["Evidence Level"].isin(["1A", "1B"])]
     fatal_adr = matched[matched["Response"].str.contains("toxicity|fatal|hypersensitivity", case=False)]
     non_responders = matched[matched["Response"].str.contains("non-response|no response|resistance", case=False)]
 
@@ -73,7 +69,18 @@ if not matched.empty:
 
     st.success(f"Found {len(matched)} variant annotations for **{drug_input.title()}**")
 
-    # --- 
+    # --- Color-coding for clinical relevance ---
+    def color_row(row):
+        color = ""
+        if row["Evidence Level"] in ["1A", "1B"]:
+            color = "background-color: #ffcccc"  # light red
+        elif "toxicity" in row["Response"].lower():
+            color = "background-color: #ffe0b2"  # light orange
+        elif "non-response" in row["Response"].lower():
+            color = "background-color: #ffffcc"  # light yellow
+        return [color] * len(row)
+
+    styled_df = matched.style.apply(color_row, axis=1)
 
     st.dataframe(styled_df, use_container_width=True)
 

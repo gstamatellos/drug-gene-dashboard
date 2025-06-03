@@ -51,12 +51,12 @@ matched = st.session_state.matched_df
 if not matched.empty:
 
     st.success(f"Found {len(matched)} variant annotations.")
-    st.dataframe(matched)
     
     with st.expander("Filter results"):
         pheno_filter = st.multiselect("Phenotype category", options=matched["Response"].unique(), default=matched["Response"].unique())
         level_filter = st.multiselect("Evidence level", options=matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
         matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
-
+    
+    st.dataframe(matched)
 
     st.download_button("Download results as CSV", data=matched.to_csv(index=False), file_name=f"{st.session_state.drug_input}_variant_safety.csv")

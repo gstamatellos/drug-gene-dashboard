@@ -58,8 +58,8 @@ if not matched.empty:
 
     # --- Summary counts ---
     high_risk = matched[
-    (matched["Evidence Level"].isin(["1A", "1B"])) |
-    (matched["Response"].str.lower().str.contains("toxicity"))
+    (matched["Response"].str.lower().str.contains("toxicity")|
+    (matched["Evidence Level"].isin(["1A", "1B"])) 
     ]
 
     fatal_adr = matched[matched["Response"].str.contains("toxicity|fatal|hypersensitivity", case=False)]

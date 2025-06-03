@@ -1,4 +1,4 @@
-import streamlit as st
+=import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Clinician Safety Checker", layout="wide")
@@ -19,6 +19,7 @@ def load_annotations():
         "Drug(s)",
         "Phenotype Category",
         "Level of Evidence",
+        "Clinical Annotation"  # optional
     ]]
     df.columns = [
         "Gene",
@@ -26,6 +27,7 @@ def load_annotations():
         "Drug",
         "Response",
         "Evidence Level",
+        "Note"
     ]
     return df
 
@@ -49,14 +51,40 @@ if st.button("Check Drug Safety"):
 matched = st.session_state.matched_df
 
 if not matched.empty:
-
-    st.success(f"Found {len(matched)} variant annotations.")
-    
-    with st.expander("Filter results"):
-        pheno_filter = st.multiselect("Phenotype category", options=matched["Response"].unique(), default=matched["Response"].unique())
-        level_filter = st.multiselect("Evidence level", options=matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
+    with st.expander("🔍 Filter results"):
+        pheno_filter = st.multiselect("Phenotype category", matched["Response"].unique(), default=matched["Response"].unique())
+        level_filter = st.multiselect("Evidence level", matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
         matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
-    
-    st.dataframe(matched)
 
-    st.download_button("Download results as CSV", data=matched.to_csv(index=False), file_name=f"{st.session_state.drug_input}_variant_safety.csv")
+    # --- Summary counts ---
+    high_risk = matched[matched["Evidence Level"].isin(["1A", "1B"])]
+    fatal_adr = matched[matched["Response"].str.contains("toxicity|fatal|hypersensitivity", case=False)]
+    non_responders = matched[matched["Response"].str.contains("non-response|no response|resistance", case=False)]
+
+    st.markdown("### 🔎 Summary")
+    col1, col2, col3 = st.columns(3)
+    col1.metric("🟥 High-Risk Variants", len(high_risk))
+    col2.metric("☠️ Fatal/Toxic Reactions", len(fatal_adr))
+    col3.metric("⚠️ Non-Responders", len(non_responders))
+
+    st.success(f"Found {len(matched)} variant annotations for **{drug_input.title()}**")
+
+    # --- Color-coding for clinical relevance ---
+    def color_row(row):
+        color = ""
+        if row["Evidence Level"] in ["1A", "1B"]:
+            color = "background-color: #ffcccc"  # light red
+        elif "toxicity" in row["Response"].lower():
+            color = "background-color: #ffe0b2"  # light orange
+        elif "non-response" in row["Response"].lower():
+            color = "background-color: #ffffcc"  # light yellow
+        return [color] * len(row)
+
+    styled_df = matched.style.apply(color_row, axis=1)
+
+    st.dataframe(styled_df, use_container_width=True)
+
+    st.download_button("📥 Download results as CSV", data=matched.to_csv(index=False), file_name=f"{drug_input}_variant_safety.csv")
+else:
+    if st.session_state.drug_input:
+        st.warning(f"No variant annotations found for '{st.session_state.drug_input}'. Try another drug.")

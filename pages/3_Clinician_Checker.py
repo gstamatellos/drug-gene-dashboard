@@ -35,7 +35,7 @@ def load_annotations():
 annotations_df = load_annotations()
 
 # --- Input ---
-drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().upper()
+drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().lower()
 
 if st.button("Check Drug Safety") and drug_input:
     matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(drug_input)]

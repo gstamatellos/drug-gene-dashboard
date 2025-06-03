@@ -1,53 +1,41 @@
 import streamlit as st
 import pandas as pd
-import requests
 
 st.set_page_config(page_title="Clinician Safety Checker", layout="wide")
 st.title("Clinician Safety Checker")
+
 st.markdown("""
 Check if a prescribed **drug** has associated **genetic variants** that affect patient safety, efficacy, or dosing.  
-Data is sourced from [PharmGKB](https://www.pharmgkb.org).
+Data is sourced from **PharmGKB clinical annotations** (local file).
 """)
 
+# --- Load data once ---
+@st.cache_data
+def load_annotations():
+    df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
+    df = df[["Gene", "Variant", "Drug", "Phenotype Category", "Evidence Level", "Annotation Text"]]
+    df.columns = ["Gene", "Variant", "Drug", "Phenotype", "Evidence Level", "Clinical Annotation"]
+    return df
+
+annotations_df = load_annotations()
+
 # --- Input ---
-drug = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().upper()
+drug_input = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().lower()
 
-if st.button("Check Drug Safety") and drug:
-    with st.spinner("Fetching variant annotations..."):
-        # Format drug name for API
-        url = f"https://api.pharmgkb.org/v1/data/variantAnnotation?drugName={drug}&limit=1000"
-        response = requests.get(url)
-        
-        if response.status_code == 200:
-            data = response.json().get("data", [])
-            
-            if not data:
-                st.warning(f"No variant annotations found for '{drug}'. Try another drug.")
-            else:
-                # Parse data
-                rows = []
-                for entry in data:
-                    rows.append({
-                        "Gene": entry.get("gene", {}).get("name", "N/A"),
-                        "Variant": entry.get("variant", {}).get("name", "N/A"),
-                        "Phenotype": entry.get("phenotypeCategory", "N/A"),
-                        "Evidence Level": entry.get("evidenceLevel", "N/A"),
-                        "Clinical Annotation": entry.get("clinicalAnnotation", {}).get("text", "N/A")
-                    })
-                
-                df = pd.DataFrame(rows)
-                
-                # Filters
-                with st.expander("Filter results"):
-                    pheno_filter = st.multiselect("Phenotype category", options=df["Phenotype"].unique(), default=df["Phenotype"].unique())
-                    level_filter = st.multiselect("Evidence level", options=df["Evidence Level"].unique(), default=df["Evidence Level"].unique())
-                    df = df[df["Phenotype"].isin(pheno_filter) & df["Evidence Level"].isin(level_filter)]
+if st.button("Check Drug Safety") and drug_input:
+    matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(drug_input)]
 
-                st.success(f"Found {len(df)} variant annotations.")
-                st.dataframe(df)
+    if matched.empty:
+        st.warning(f"No variant annotations found for '{drug_input}'. Try another drug.")
+    else:
+        # Filters
+        with st.expander("Filter results"):
+            pheno_filter = st.multiselect("Phenotype category", options=matched["Phenotype"].unique(), default=matched["Phenotype"].unique())
+            level_filter = st.multiselect("Evidence level", options=matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
+            matched = matched[matched["Phenotype"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
 
-                # Optional: Download
-                st.download_button("Download results as CSV", data=df.to_csv(index=False), file_name=f"{drug}_variant_safety.csv")
-        else:
-            st.error("Failed to fetch data from PharmGKB.")
+        st.success(f"Found {len(matched)} variant annotations.")
+        st.dataframe(matched)
 
+        # Optional: Download
+        st.download_button("Download results as CSV", data=matched.to_csv(index=False), file_name=f"{drug_input}_variant_safety.csv")

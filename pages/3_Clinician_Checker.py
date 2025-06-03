@@ -10,7 +10,7 @@ Data is sourced from [PharmGKB](https://www.pharmgkb.org).
 """)
 
 # --- Input ---
-drug = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().lower()
+drug = st.text_input("Enter drug name (e.g. clopidogrel, warfarin, abacavir):").strip().upper()
 
 if st.button("Check Drug Safety") and drug:
     with st.spinner("Fetching variant annotations..."):

@@ -31,8 +31,8 @@ Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`
 - Python 3.10+  
 - Streamlit  
 - Pandas  
-- Seaborn & Matplotlib  
-- Plotly Express  
+- Seaborn
+- Matplotlib    
 - DGIdb GraphQL API  
 - PharmGKB TSV data
 

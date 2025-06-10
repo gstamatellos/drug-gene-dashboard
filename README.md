@@ -58,6 +58,9 @@ The application includes four main pages:
    - Score distributions across phenotype categories  
    - Heatmaps of gene vs. Clinical Annotation relationships  
 
+4. **Clinician Checker**
+   Still working on it..
+   
 ---
 
 ## Data & Attribution

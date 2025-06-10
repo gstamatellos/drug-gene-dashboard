@@ -78,13 +78,12 @@ else:
     st.subheader(" Most Common Interaction Types")
     st.info("No interaction types information available.")
 
-# --- Pharmacogenomic Associations Visuals ---
-drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
-st.markdown("---")
-st.subheader(f"Pharmacogenomic Associations for {drug_name}")
-
 
 if mode == "Drug":
+    # --- Pharmacogenomic Associations Visuals ---
+    drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
+    st.markdown("---")
+    st.subheader(f"Pharmacogenomic Associations for {drug_name}")
     pharm_df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
     drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
     pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]

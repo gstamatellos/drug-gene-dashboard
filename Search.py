@@ -32,9 +32,9 @@ st.session_state["mode"] = mode
 
 # --- Input based on mode ---
 if mode == "Drug":
-    input_val = st.text_input("Enter Drug name:", value=st.session_state["drug_input"]).strip().upper()
+    input_val = st.text_input("Enter Drug name, Press Enter to apply:", value=st.session_state["drug_input"]).strip().upper()
 else:
-    input_val = st.text_input("Enter Gene name:", value=st.session_state["gene_input"]).strip().upper()
+    input_val = st.text_input("Enter Gene name,  Press Enter to apply:", value=st.session_state["gene_input"]).strip().upper()
 
 # --- On search button click ---
 if st.button("Search") and input_val:

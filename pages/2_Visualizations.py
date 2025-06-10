@@ -146,5 +146,6 @@ if mode == "Drug":
     st.pyplot(fig4)
 
 else:
+    st.markdown("---")
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()

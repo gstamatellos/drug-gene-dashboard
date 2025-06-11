@@ -34,7 +34,7 @@ def load_annotations():
 annotations_df = load_annotations()
 
 # --- Input ---
-drug_input = st.text_input("Type drug name (e.g. clopidogrel, warfarin, abacavir) and press Enter:")
+drug_input = st.text_input("Type drug name (e.g. clopidogrel, warfarin) and press Enter:")
 
 if drug_input:
     if drug_input.strip() == "":

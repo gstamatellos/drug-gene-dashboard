@@ -14,7 +14,7 @@ After searching, use the sidebar to explore:
 - **Results Tables** 
 - **Interaction - Annotation Visuals**  
 
-New feature: Clinician Safety Checker  
+**New feature: Clinician Safety Checker**  
 Navigate in the sidebar and take a look!
 """)
 

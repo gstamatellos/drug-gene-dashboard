@@ -3,11 +3,11 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-st.title("📊 Interaction Visuals")
+st.title("Interaction Visuals")
 st.markdown("---")
 
 # Require valid DataFrame
-if "df" not in st.session_state or st.session_state["df"] is None:
+if "df" not in st.session_state or st.session_state["df"] is None or not st.session_state.get("valid_search", False):
     st.info("🔍 Please perform a search from the Home page first.")
     st.stop()
 
@@ -78,12 +78,13 @@ else:
     st.subheader(" Most Common Interaction Types")
     st.info("No interaction types information available.")
 
+# --- Pharmacogenomic Associations Visuals ---
+drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
+st.markdown("---")
+st.subheader("Pharmacogenomic Associations")
+
 
 if mode == "Drug":
-    # --- Pharmacogenomic Associations Visuals ---
-    drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
-    st.markdown("---")
-    st.subheader(f"Pharmacogenomic Associations for {drug_name}")
     pharm_df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
     drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
     pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]
@@ -146,6 +147,5 @@ if mode == "Drug":
     st.pyplot(fig4)
 
 else:
-    st.markdown("---")
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()

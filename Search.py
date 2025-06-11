@@ -27,42 +27,54 @@ if "drug_input" not in st.session_state:
     st.session_state["drug_input"] = ""
 if "searched" not in st.session_state:
     st.session_state["searched"] = False
+if "results" not in st.session_state:
+    st.session_state["results"] = None
+if "valid_search" not in st.session_state:
+    st.session_state["valid_search"] = False
 
 st.markdown("---")
 
 # --- Mode select ---
-mode = st.radio("Select search mode:", ["Drug", "Gene"], index=0 if st.session_state["mode"] == "Drug" else 1, horizontal=True)
-st.session_state["mode"] = mode
+mode = st.radio("Select search mode:", ["Drug", "Gene"], 
+                index=0 if st.session_state["mode"] == "Drug" else 1, horizontal=True)
+
+# Clear results and reset on mode change
+if mode != st.session_state["mode"]:
+    st.session_state["mode"] = mode
+    st.session_state["results"] = None
+    st.session_state["valid_search"] = False
+    st.session_state["searched"] = False
 
 # --- Input based on mode ---
 if mode == "Drug":
-    input_val = st.text_input("Type Drug name and press Enter:").strip()
+    raw_input = st.text_input("Type Drug name and press Enter:", value=st.session_state["drug_input"])
 else:
-    input_val = st.text_input("Type Gene name and press Enter:").strip()
+    raw_input = st.text_input("Type Gene name and press Enter:", value=st.session_state["gene_input"])
 
-input_val = input_val.upper()
+input_val = raw_input.strip()
+input_val_upper = input_val.upper()
 
 # --- Auto-search on Enter ---
-search_triggered = input_val and (
-    input_val != (st.session_state["drug_input"] if mode == "Drug" else st.session_state["gene_input"])
-)
+stored_input = st.session_state["drug_input"] if mode == "Drug" else st.session_state["gene_input"]
+stored_input_upper = stored_input.upper() if stored_input else ""
+
+search_triggered = input_val_upper and (input_val_upper != stored_input_upper)
 
 if search_triggered:
-    # Progress bar setup
     import time
     progress_text = "⏳ Searching for interactions..."
     progress_bar = st.progress(100, text=progress_text)
 
-    # Save input based on mode
+    # Save raw input back to session state for persistence
     if mode == "Drug":
-        st.session_state["drug_input"] = input_val
+        st.session_state["drug_input"] = raw_input
     else:
-        st.session_state["gene_input"] = input_val
+        st.session_state["gene_input"] = raw_input
 
     st.session_state["searched"] = True
 
     url = "https://dgidb.org/api/graphql"
-    safe_name = json.dumps(input_val)
+    safe_name = json.dumps(input_val_upper)
 
     # Build query
     if mode == "Drug":
@@ -114,8 +126,7 @@ if search_triggered:
 
         if mode == "Drug":
             nodes = results.get("data", {}).get("drugs", {}).get("nodes", [])
-            # Filter nodes to exact name match (case-insensitive)
-            exact_nodes = [node for node in nodes if node.get("name", "").upper() == input_val]
+            exact_nodes = [node for node in nodes if node.get("name", "").upper() == input_val_upper]
 
             if not exact_nodes:
                 st.warning("⚠️ No exact matches found for your drug input.")
@@ -132,8 +143,7 @@ if search_triggered:
 
         else:  # Gene mode
             nodes = results.get("data", {}).get("genes", {}).get("nodes", [])
-            # Filter nodes to exact name match (case-insensitive)
-            exact_nodes = [node for node in nodes if node.get("name", "").upper() == input_val]
+            exact_nodes = [node for node in nodes if node.get("name", "").upper() == input_val_upper]
 
             if not exact_nodes:
                 st.warning("⚠️ No exact matches found for your gene input.")
@@ -161,3 +171,4 @@ if search_triggered:
     else:
         st.error(f"❌ API request failed with status code {response.status_code}")
         st.session_state["valid_search"] = False
+

@@ -1,11 +1,11 @@
 import streamlit as st
 import pandas as pd
 
-st.title("📋 Interaction Table")
+st.title("Interaction Table")
 st.markdown("---")
 
 # Check if df is available in session_state
-if "df" not in st.session_state:
+if "df" not in st.session_state or not st.session_state.get("valid_search", False):
     st.info("🔍 Please perform a search from the Home page first.")
     st.stop()
 
@@ -71,17 +71,22 @@ if drug_name:
     if not pharm_subset.empty:
         st.subheader(f"Pharmacogenomic Variants for {drug_name}")
         st.session_state["pharm_subset_index"] = pharm_subset_index
+        
         st.markdown("""
-        This table presents pharmacogenomic variant-drug associations along with clinical annotations to support personalized medicine applications. 
-
-        - **Level of Evidence**: Graded from 1A (highest) to 4, indicating the strength of clinical support based on PharmGKB guidelines.
-        - **Score**: Quantitative measure of clinical annotation confidence derived from supporting evidence.
-        - **Phenotype Category**: Type of drug response or outcome associated with the variant (e.g., toxicity, efficacy, dosage, metabolism/PK, pharmacodynamics, or other).
-        - **Clinical Annotations**: Description of observed phenotypes linked to the variant-drug combination, including disease associations or effects on drug response.
+        This table presents pharmacogenomic variant-drug associations along with clinical annotations to support personalized medicine applications. For more detailed info try searching in the **Clinician Safety Checker** section. Visuals are provided in **Visualizations**.
         """)
 
+        with st.expander("About these results"):
+            
+            st.markdown("""
+            - **Phenotype Category**: Type of drug response or outcome associated with the variant (e.g., toxicity, efficacy, dosage, metabolism/PK)
+            - **Level of Evidence**: Graded from 1A (highest) to 4, indicating the strength of clinical support based on PharmGKB guidelines.  
+                [More details at PharmGKB](https://www.pharmgkb.org/page/clinAnnLevels)
+            - **Clinical Annotation**: Description of observed phenotypes linked to the variant-drug combination, including disease associations or effects on drug response
+            """)
+
         st.dataframe(pharm_subset_index[[
-            "Gene", "Variant/Haplotypes", "Phenotype Category", "Level of Evidence", "Clinical Annotation", "Score"
+            "Gene", "Variant/Haplotypes", "Phenotype Category", "Level of Evidence", "Clinical Annotation"
         ]])
 
 # Download button
@@ -94,3 +99,8 @@ if drug_name:
 
     else:
         st.info(f"No variant annotations found in PharmGKB for **{drug_name}**.")
+
+
+
+
+        

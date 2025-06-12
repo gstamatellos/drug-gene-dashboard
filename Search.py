@@ -19,7 +19,7 @@ After searching, use the sidebar to explore:
 Navigate in the sidebar and take a look!
 """)
 
-# --- Initialize session state for inputs ---
+# --- Initialize session state for inputs
 if "mode" not in st.session_state:
     st.session_state["mode"] = "Drug"
     
@@ -76,7 +76,7 @@ if search_triggered:
 
     # Build query based on the DGIdb API Documentation
     # For the searched drug retrieve every interacting gene's name, longName, interactionScore
-    # For the searched gene retrive every interacting drug's name, conceptId, interactionScore, interactionType
+    # For the searched gene retrieve every interacting drug's name, conceptId, interactionScore, interactionType
     if mode == "Drug":
         query = f"""
         {{

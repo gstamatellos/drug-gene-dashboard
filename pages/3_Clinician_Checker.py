@@ -5,7 +5,7 @@ st.set_page_config(page_title="Clinician Safety Checker", layout="wide")
 st.title("Clinician Safety Checker")
 
 st.markdown("""
-Check if a prescribed drug has **associated genetic variants** that affect patient safety, efficacy, or dosing. 
+Check if a prescribed drug has **associated genetic variants** that affect patient safety, efficacy, or dosing.  
 Data is sourced from **PharmGKB clinical annotations.**
 """)
 

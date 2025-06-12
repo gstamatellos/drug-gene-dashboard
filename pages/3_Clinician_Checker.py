@@ -6,7 +6,7 @@ st.title("Clinician Safety Checker")
 
 st.markdown("""
 Check if a prescribed drug has **associated genetic variants** that affect patient safety, efficacy, or dosing.  
-Search by **drug name** (e.g. *warfarin, clopidogrel*) or by **disease/phenotype** (e.g. *heart failure, hemorrhage*).  
+Search by **drug name** (e.g. *warfarin, clopidogrel*) or by **disease/phenotype** (e.g. *heart failure, hemorrhage*) 
 Data is sourced from **PharmGKB clinical annotations.**
 """)
 
@@ -36,7 +36,10 @@ def load_annotations():
 annotations_df = load_annotations()
 
 # --- Search type selection ---
-search_type = st.radio("Search by:", ["Drug", "Disease/Phenotype"], horizontal=True)
+st.markdown(""" 
+Search by **drug name** (e.g. *warfarin, clopidogrel*) or by **disease/phenotype** (e.g. *heart failure, hemorrhage*) 
+""")
+search_type = st.radio("", ["Drug", "Disease/Phenotype"], horizontal=True)
 search_input = st.text_input(f"Type {search_type.lower()} and press Enter:")
 
 if search_input:

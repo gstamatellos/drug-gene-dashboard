@@ -9,6 +9,7 @@ Check if a prescribed drug has **associated genetic variants** that affect patie
 Data is sourced from **PharmGKB clinical annotations.**
 """)
 
+st.markdown("---")
 
 # --- Load data once ---
 @st.cache_data

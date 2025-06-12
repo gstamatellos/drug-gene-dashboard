@@ -19,7 +19,7 @@ def load_annotations():
         "Drug(s)",
         "Phenotype Category",
         "Level of Evidence",
-        "Clinical Annotation"  # optional
+        "Clinical Annotation"
     ]]
     df.columns = [
         "Gene",
@@ -33,20 +33,24 @@ def load_annotations():
 
 annotations_df = load_annotations()
 
-# --- Input ---
-drug_input = st.text_input("Type drug name (e.g. clopidogrel, warfarin) and press Enter:")
+# --- Search type selection ---
+search_type = st.radio("Search by:", ["Drug", "Disease/Phenotype"], horizontal=True)
+search_input = st.text_input(f"Type {search_type.lower()} and press Enter:")
 
-if drug_input:
-    if drug_input.strip() == "":
-        st.info("👋 Please enter a drug name above to begin.")
+if search_input:
+    if search_input.strip() == "":
+        st.info("👋 Please enter a term above to begin.")
     else:
-        matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(drug_input.strip().lower())]
+        if search_type == "Drug":
+            matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(search_input.strip().lower())]
+        else:
+            matched = annotations_df[annotations_df["Note"].str.lower().str.contains(search_input.strip().lower(), na=False)]
 
         if not matched.empty:
             st.markdown(" ")
-            st.success(f"Found {len(matched)} variant annotations for **{drug_input.title()}**")
+            st.success(f"Found {len(matched)} variant annotations for **{search_input.title()}**")
             st.markdown("---")
-            
+
             with st.expander("🔍 Filter results"):
                 pheno_filter = st.multiselect("Phenotype category", matched["Response"].unique(), default=matched["Response"].unique())
                 level_filter = st.multiselect("Evidence level", matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
@@ -93,13 +97,13 @@ if drug_input:
 
             st.dataframe(styled_df, use_container_width=True)
 
-            st.download_button("📥 Download results as CSV", data=matched.to_csv(index=False), file_name=f"{drug_input}_variant_safety.csv")
-            
+            st.download_button("📥 Download results as CSV", data=matched.to_csv(index=False), file_name=f"{search_input}_{search_type.lower()}_variant_safety.csv")
+
             st.markdown(" ")
-            
+
             with st.expander("About these results"):
                 st.markdown("""
-                The table above shows pharmacogenomic variant annotations linked to the selected drug. Each row represents a **gene–variant–drug** interaction affecting:
+                The table above shows pharmacogenomic variant annotations linked to the selected drug or disease. Each row represents a **gene–variant–drug** interaction affecting:
 
                 - **Toxicity** — risk of severe or fatal reactions  
                 - **Efficacy** — likelihood of therapeutic success  
@@ -128,4 +132,5 @@ if drug_input:
                 - A phenotype that may result from the variant–drug interaction  
                 """)
         else:
-            st.warning(f"No variant annotations found for '{drug_input}'. Try another drug.")
+            st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
+

@@ -35,10 +35,7 @@ def load_annotations():
 annotations_df = load_annotations()
 
 # --- Search type selection ---
-st.markdown(""" 
-Search by **drug name** (e.g. *warfarin, clopidogrel*) or by **disease/phenotype** (e.g. *heart failure, hemorrhage*) 
-""")
-search_type = st.radio("", ["Drug", "Disease/Phenotype"], horizontal=True)
+search_type = st.radio("Search by drug name (e.g. warfarin, clopidogrel) or by disease/phenotype (e.g. heart failure, hemorrhage)", ["Drug", "Disease/Phenotype"], horizontal=True)
 search_input = st.text_input(f"Type {search_type.lower()} and press Enter:")
 
 if search_input:

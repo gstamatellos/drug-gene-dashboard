@@ -53,7 +53,7 @@ else:
     input_val = st.text_input("Type Gene name:", value=st.session_state["gene_input"]).strip()
 
 # --- Search button ---
-search_triggered = st.button("🔍 Search Interactions")
+search_triggered = st.button("Search")
 
 # --- If button is clicked, search
 if search_triggered:

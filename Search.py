@@ -42,19 +42,18 @@ st.session_state["mode"] = mode
 # --- Input based on mode ---
 # --- .strip() removes accidental spaces
 if mode == "Drug":
-    input_val = st.text_input("Type Drug name and press Enter:").strip()
+    input_val = st.text_input("Type Drug name:", value=st.session_state["drug_input"]).strip()
 else:
-    input_val = st.text_input("Type Gene name and press Enter:").strip()
+    input_val = st.text_input("Type Gene name:", value=st.session_state["gene_input"]).strip()
 
-# --- .upper() standardizes input (DGIdb uses uppercase names, e.g., “TP53”)
-input_val = input_val.upper()
+# --- Search button ---
+search_triggered = st.button("🔍 Search Interactions")
 
-# --- Auto-search on Enter ---
-search_triggered = input_val and (
-    input_val != (st.session_state["drug_input"] if mode == "Drug" else st.session_state["gene_input"])
-)
-
+# --- If button is clicked, search
 if search_triggered:
+    # --- .upper() standardizes input (DGIdb uses uppercase names, e.g., “TP53”)
+    input_val = input_val.upper()
+
     # Show progress bar
     import time
     progress_text = "⏳ Searching for interactions..."
@@ -183,3 +182,4 @@ if search_triggered:
     else:
         st.error(f"❌ API request failed with status code {response.status_code}")
         st.session_state["valid_search"] = False
+

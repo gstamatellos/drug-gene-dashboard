@@ -35,8 +35,14 @@ if "searched" not in st.session_state:
 
 st.markdown("---")
 
-# --- Mode select ---
-mode = st.radio("Select search mode:", ["Drug", "Gene"], index=0 if st.session_state["mode"] == "Drug" else 1, horizontal=True)
+# --- Detect mode change and reset input
+prev_mode = st.session_state.get("mode", "Drug")
+mode = st.radio("Select search mode:", ["Drug", "Gene"], index=0 if prev_mode == "Drug" else 1, horizontal=True)
+
+if mode != prev_mode:
+    st.session_state["gene_input"] = ""
+    st.session_state["drug_input"] = ""
+
 st.session_state["mode"] = mode
 
 # --- Input based on mode ---
@@ -182,4 +188,5 @@ if search_triggered:
     else:
         st.error(f"❌ API request failed with status code {response.status_code}")
         st.session_state["valid_search"] = False
+
 

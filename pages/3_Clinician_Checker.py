@@ -38,8 +38,9 @@ annotations_df = load_annotations()
 # --- Search type selection ---
 search_type = st.radio("Search by drug name (e.g. warfarin, clopidogrel) or by disease/phenotype (e.g. heart failure, hemorrhage)", ["Drug", "Disease/Phenotype"], horizontal=True)
 search_input = st.text_input(f"Type {search_type.lower()} and press Enter:")
+search_button = st.button("Search")
 
-if search_input:
+if search_input and search_button:
     if search_input.strip() == "":
         st.info("👋 Please enter a term above to begin.")
     else:
@@ -135,4 +136,3 @@ if search_input:
                 """)
         else:
             st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
-            st.download_button("📥 Download empty CSV", data=pd.DataFrame().to_csv(index=False), file_name=f"{search_input}_{search_type.lower()}_variant_safety.csv")

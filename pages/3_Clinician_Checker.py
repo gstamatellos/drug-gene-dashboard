@@ -135,4 +135,5 @@ if search_input:
                 """)
         else:
             st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
+            st.download_button("📥 Download empty CSV", data=pd.DataFrame().to_csv(index=False), file_name=f"{search_input}_{search_type.lower()}_variant_safety.csv")
 

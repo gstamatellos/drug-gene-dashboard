@@ -42,8 +42,8 @@ mode = st.radio("Select search mode:", ["Drug", "Gene"], index=0 if prev_mode ==
 if mode != prev_mode:
     st.session_state["gene_input"] = ""
     st.session_state["drug_input"] = ""
-    st.session_state["mode"] = mode
-    st.experimental_rerun()
+
+st.session_state["mode"] = mode
 
 # --- Input based on mode ---
 # --- .strip() removes accidental spaces
@@ -188,3 +188,4 @@ if search_triggered:
     else:
         st.error(f"❌ API request failed with status code {response.status_code}")
         st.session_state["valid_search"] = False
+

@@ -10,7 +10,7 @@ This application uses publicly available data and resources from the following d
 - **GeneCards** — [https://www.genecards.org](https://www.genecards.org)  
 - **DrugBank** — [https://go.drugbank.com](https://go.drugbank.com)  
 - **PubChem** — [https://pubchem.ncbi.nlm.nih.gov](https://pubchem.ncbi.nlm.nih.gov)  
-- **PharmGKB** — [https://www.pharmgkb.org](https://www.pharmgkb.org)  
+- **ClinPGx** — [https://www.clinpgx.org/](https://www.clinpgx.org/)  
   Licensed under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). Minor formatting was applied for internal analysis.
 
 These resources are used for educational and research purposes only.  

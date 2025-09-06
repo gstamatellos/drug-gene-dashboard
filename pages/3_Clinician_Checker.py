@@ -6,7 +6,7 @@ st.title("Clinician Safety Checker")
 
 st.markdown("""
 Check if a prescribed drug has **associated genetic variants** that affect patient safety, efficacy, or dosing.  
-Data is sourced from **PharmGKB clinical annotations.**
+Data is sourced from **ClinPGx clinical annotations.**
 """)
 
 st.markdown("---")

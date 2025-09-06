@@ -1,4 +1,4 @@
-# PharmXplorer: Drug–Gene Interaction Dashboard
+# Pharmxplorer: Drug–Gene Interaction Dashboard
 
 PharmXplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb GraphQL API, now extended with pharmacogenomic variant annotations from PharmGKB.
 

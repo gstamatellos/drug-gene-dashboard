@@ -34,7 +34,7 @@ Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`
 - Seaborn
 - Matplotlib    
 - DGIdb GraphQL API  
-- PharmGKB TSV data
+- ClinPGx TSV data
 
 ---
 
@@ -68,7 +68,7 @@ The application includes four main pages:
 This app integrates open-access data from:
 
 - [DGIdb](https://dgidb.org) — Drug–Gene Interaction Database  
-- [PharmGKB](https://www.pharmgkb.org) — Pharmacogenomics Knowledgebase  
+- [ClinPGx](https://www.clinpgx.org/) — Pharmacogenomics Knowledgebase  
 - [NCBI](https://www.ncbi.nlm.nih.gov)  
 - [GeneCards](https://www.genecards.org)  
 - [DrugBank](https://go.drugbank.com)  

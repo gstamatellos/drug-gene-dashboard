@@ -1,6 +1,6 @@
 # Pharmxplorer: Drug–Gene Interaction Dashboard
 
-Pharmxplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb GraphQL API, now extended with pharmacogenomic variant annotations from PharmGKB.
+Pharmxplorer is a Streamlit web application for querying and visualizing drug–gene interactions using the DGIdb GraphQL API, now extended with pharmacogenomic variant annotations from ClinPGx.
 
 Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`, `Tamoxifen`) and retrieve known interaction partners, along with interaction scores, types, and pharmacogenomic insights. It provides an interactive, lightweight interface suitable for bioinformatics, precision medicine, research, and education in pharmacogenomics.
 
@@ -17,7 +17,7 @@ Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`
 - Download support: Export results as `.csv`  
 - Visual summaries: Graphs of drug–gene interaction types  
 - Live API: Real-time data from the DGIdb GraphQL API  
-- Pharmacogenomic Annotations: Clinical variant data from PharmGKB  
+- Pharmacogenomic Annotations: Clinical variant data from ClinPGx  
 - New visual analytics:
   - Barplot of genes with the most variants  
   - Phenotype category distributions  
@@ -46,13 +46,13 @@ The application includes four main pages:
    Search by entering a drug or gene name and choosing a search mode.
 
 2. **Interaction Table**  
-   View and explore interaction results from DGIdb, pharmacogenomic variant-drug associations from PharmGKB.
+   View and explore interaction results from DGIdb, pharmacogenomic variant-drug associations from ClinPGx.
 
 3. **Interaction Visuals - Pharamcogenomic Variants**  
    View bar charts and distribution plots summarizing drug–gene interactions, including interaction types and partners.
 
    **Variant Annotations** (NEW)  
-   Visualize curated clinical annotations from PharmGKB related to drug–gene–variant relationships:
+   Visualize curated clinical annotations from ClinPGx related to drug–gene–variant relationships:
    - Top 10 genes with the most variant annotations  
    - Phenotype category distributions (e.g., efficacy, toxicity)  
    - Score distributions across phenotype categories  

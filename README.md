@@ -4,7 +4,7 @@ PharmXplorer is a Streamlit web application for querying and visualizing drug–
 
 Users can input a human gene (e.g., `TP53`, `EGFR`) or drug (e.g., `Clopidogrel`, `Tamoxifen`) and retrieve known interaction partners, along with interaction scores, types, and pharmacogenomic insights. It provides an interactive, lightweight interface suitable for bioinformatics, precision medicine, research, and education in pharmacogenomics.
 
- Check [PharmXplorer](https://pharmexplorer.streamlit.app/)
+ Check [Pharmxplorer](https://pharmexplorer.streamlit.app/)
 
 **Note:** Probably the app will be inactive, simply click the activate button. It may take a while to load!
 

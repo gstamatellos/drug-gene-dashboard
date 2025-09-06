@@ -9,7 +9,7 @@ st.image("data/home_image.png")
 st.title("Welcome to Drug ⇄ Gene Interaction Explorer")
 
 st.markdown("""
-This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API and **pharmacogenomic variant-drug annotations** data from [PharmGKB](https://www.pharmgkb.org/).
+This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API and **pharmacogenomic variant-drug annotations** data from [ClinPGX](https://www.clinpgx.org/).
 
 After searching, use the sidebar to explore:
 - **Results Tables** 
@@ -188,4 +188,5 @@ if search_triggered:
     else:
         st.error(f"❌ API request failed with status code {response.status_code}")
         st.session_state["valid_search"] = False
+
 

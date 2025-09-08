@@ -94,6 +94,7 @@ if mode == "Drug":
     # Check if pharm_subset_index is available and not empty
     if pharm_subset_index is None or pharm_subset_index.empty:
         st.info("No pharmacogenomics annotations available for this drug.")
+        st.stop()  
         
 
     st.markdown("### **1. Top Genes with Most Variant Annotations**")
@@ -149,3 +150,5 @@ if mode == "Drug":
 else:
     st.info("No pharmacogenomic annotations available for gene searches.")
     st.stop()
+
+

@@ -76,7 +76,3 @@ This app integrates open-access data from:
 
 All content is used for educational and research purposes only.
 
----
-## Setup Instructions
-
-

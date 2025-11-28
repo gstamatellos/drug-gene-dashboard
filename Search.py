@@ -19,6 +19,9 @@ After searching, use the sidebar to explore:
 - **Interaction - Annotation Visuals**  
 """)
 
+st.markdown("""
+""")
+
 # --- Clinician Safety Checker button in main page ---
 st.markdown("**NEW: Clinician Safety Checker**")
 if st.button("Visit page"):
@@ -171,6 +174,7 @@ if st.session_state.get("searched", False):
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
 
 
 

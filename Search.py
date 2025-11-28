@@ -20,7 +20,7 @@ After searching, you can explore:
 """)
 
 # --- Clinician Safety Checker button in main page ---
-st.markdown("###Clinician Safety Checker")
+st.markdown("Clinician Safety Checker")
 st.markdown(
     "Quickly check patient safety and pharmacogenomic variants associated with a drug."
 )
@@ -174,6 +174,7 @@ if st.session_state.get("searched", False):
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
 
 
 

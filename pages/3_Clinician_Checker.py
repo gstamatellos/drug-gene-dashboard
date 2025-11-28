@@ -163,7 +163,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                 
                 for idx, row in gene_group.iterrows():
                     if current_type == "Disease/Phenotype":
-                        st.markdown(f"**{idx+1}.** **{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
+                        st.markdown(f" **{row['Gene']}**  \n"
                                   f"   • Variants: {row['Variant']}  \n"
                                   f"   • Associated drugs: {row['Drug']}")
                     else:
@@ -278,11 +278,11 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                 - **3**: Limited or conflicting evidence
                 - **4**: Case reports or preliminary data
                 
-                [Learn more at PharmGKB](https://www.pharmgkb.org/page/clinAnnLevels)
+                [Learn more at ClinPGx](https://www.pharmgkb.org/page/clinAnnLevels)
                 """)
         
         with col3:
-            with st.expander("🎨 Color coding"):
+            with st.expander("🎨 Color coding")
                 st.markdown("""
                 **High evidence (1A to 2B) rows are color-coded:**
                 

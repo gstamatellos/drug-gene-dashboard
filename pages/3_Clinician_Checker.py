@@ -103,23 +103,7 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
         st.markdown(" ")
         st.success(f"Found {len(matched)} variant annotations for **{search_input.title()}**")
         st.markdown("---")
-
-        # --- Filters ---
-        with st.expander("🔍 Filter results"):
-            pheno_filter = st.multiselect(
-                "Phenotype category",
-                matched["Response"].unique(),
-                default=matched["Response"].unique()
-            )
-            level_filter = st.multiselect(
-                "Evidence level",
-                matched["Evidence Level"].unique(),
-                default=matched["Evidence Level"].unique()
-            )
-            matched = matched[
-                matched["Response"].isin(pheno_filter) &
-                matched["Evidence Level"].isin(level_filter)
-            ]
+        
 
         # --- Recommended Gene Panel (only for Drug and Disease searches) ---
         if search_type in ["Drug", "Disease/Phenotype"]:
@@ -151,6 +135,24 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
                         st.markdown(f"- **{row['Gene']}** — variants: {row['Variant']}")
             else:
                 st.info("No genes with high evidence found for this search.")
+
+         # --- Filters ---
+        with st.expander("🔍 Filter results"):
+            pheno_filter = st.multiselect(
+                "Phenotype category",
+                matched["Response"].unique(),
+                default=matched["Response"].unique()
+            )
+            level_filter = st.multiselect(
+                "Evidence level",
+                matched["Evidence Level"].unique(),
+                default=matched["Evidence Level"].unique()
+            )
+            matched = matched[
+                matched["Response"].isin(pheno_filter) &
+                matched["Evidence Level"].isin(level_filter)
+            ]
+
 
         # --- Summary counts ---
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]

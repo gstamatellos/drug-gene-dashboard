@@ -127,16 +127,16 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
                              "No high-risk toxicity variants detected.\n\n")
             # Efficacy
             if len(efficacy_variants) > 0:
-                summary_text += f"{len(efficacy_variants)} variant(s) may positively or negatively impact therapeutic efficacy.\n\n"
+                summary_text += f"- {len(efficacy_variants)} variant(s) may positively or negatively impact therapeutic efficacy.\n\n"
             # Dosage
             if len(dosage_issues) > 0:
-                summary_text += f"{len(dosage_issues)} variant(s) may require dose adjustments.\n\n "
+                summary_text += f"- {len(dosage_issues)} variant(s) may require dose adjustments.\n\n "
             # Genes & testing
             if len(important_genes) > 0:
-                summary_text += (f"The following genes are of clinical importance: {', '.join(sorted(important_genes))}.\n\n "
+                summary_text += (f"- The following genes are of clinical importance: {', '.join(sorted(important_genes))}.\n\n "
                                  "Genetic testing is strongly recommended to guide therapy.\n\n")
             else:
-                summary_text += "No high-evidence genes identified. Genetic testing may be considered based on clinical context.\n\n"
+                summary_text += "- No high-evidence genes identified. Genetic testing may be considered based on clinical context.\n\n"
 
             st.markdown(summary_text)
 

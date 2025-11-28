@@ -20,10 +20,7 @@ After searching, you can explore:
 """)
 
 # --- Clinician Safety Checker button in main page ---
-st.markdown("Clinician Safety Checker")
-st.markdown(
-    "Quickly check patient safety and pharmacogenomic variants associated with a drug."
-)
+st.markdown("NEW: Clinician Safety Checker")
 if st.button("Go to Clinician Safety Checker"):
     st.session_state["goto_clinician_checker"] = True
     st.info("Please click the sidebar page **Clinician Safety Checker** to continue!")
@@ -174,6 +171,7 @@ if st.session_state.get("searched", False):
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
 
 
 

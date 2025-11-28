@@ -118,7 +118,7 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
                 (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
                 (matched["Response"].str.contains("Dosage", case=False))
             ]
-            important_genes = matched[matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])]["Gene"].unique()
+            important_genes = matched[matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])]["Gene"].dropna().unique()
 
             summary_text = ""
             # Patient risk
@@ -132,10 +132,12 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
             if len(dosage_issues) > 0:
                 summary_text += f"{len(dosage_issues)} variant(s) may require dose adjustments. "
             # Genes & testing
-            summary_text += (f"The following genes are of clinical importance: {', '.join(sorted(important_genes))}. "
-                             if len(important_genes) > 0 else "No high-evidence genes identified. ")
-            summary_text += ("Genetic testing is strongly recommended to guide therapy. "
-                             if len(important_genes) > 0 else "Genetic testing may be considered based on clinical context.")
+            if len(important_genes) > 0:
+                summary_text += (f"The following genes are of clinical importance: {', '.join(sorted(important_genes))}. "
+                                 "Genetic testing is strongly recommended to guide therapy.")
+            else:
+                summary_text += "No high-evidence genes identified. Genetic testing may be considered based on clinical context."
+
             st.markdown(summary_text)
 
         # ------------------------------
@@ -257,5 +259,6 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
 
     else:
         st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
+
 
 

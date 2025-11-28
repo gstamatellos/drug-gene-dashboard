@@ -5,6 +5,7 @@ import json
 import time
 
 st.title("Drug - Gene Interactions")
+st.markdown("Search by Drug or Gene name to explore drug-gene interactions.")
 st.markdown("---")
 
 # --- Initialize session state ---

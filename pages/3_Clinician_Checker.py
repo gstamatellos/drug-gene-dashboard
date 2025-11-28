@@ -99,8 +99,8 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
     # --- Display results ---
     if not matched.empty:
         st.markdown("---")
-        st.info(f"📊 Currently viewing results for: **{search_term.title()}**")
-        st.success(f"✅ Found **{len(matched)}** variant annotations")
+        st.info(f"Currently viewing results for: **{search_term.title()}**")
+        st.success(f"Found **{len(matched)}** variant annotations")
 
         # --- 1. Clinical Summary (Drug only) ---
         if current_type == "Drug":

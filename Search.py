@@ -23,6 +23,3 @@ st.markdown("**NEW: Clinician Safety Checker**")
 if st.button("Visit page"):
     st.session_state["goto_clinician_checker"] = True
     st.info("Please click the sidebar page **Clinician Safety Checker** to continue!")
-
-st.markdown("---")
-st.title("Drug - Gene Interactions")

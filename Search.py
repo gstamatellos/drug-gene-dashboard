@@ -14,14 +14,14 @@ st.markdown("""
 This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API 
 and **pharmacogenomic variant-drug annotations** data from [ClinPGx](https://www.clinpgx.org/).
 
-After searching, you can explore:
+After searching, use the sidebar to explore:
 - **Results Tables** 
 - **Interaction - Annotation Visuals**  
 """)
 
 # --- Clinician Safety Checker button in main page ---
 st.markdown("NEW: Clinician Safety Checker")
-if st.button("Go to Clinician Safety Checker"):
+if st.button("Visit"):
     st.session_state["goto_clinician_checker"] = True
     st.info("Please click the sidebar page **Clinician Safety Checker** to continue!")
 
@@ -171,6 +171,7 @@ if st.session_state.get("searched", False):
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
 
 
 

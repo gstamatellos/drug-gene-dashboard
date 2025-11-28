@@ -20,7 +20,7 @@ After searching, you can explore:
 """)
 
 # --- Clinician Safety Checker button in main page ---
-st.markdown("### 🩺 Clinician Safety Checker")
+st.markdown("###Clinician Safety Checker")
 st.markdown(
     "Quickly check patient safety and pharmacogenomic variants associated with a drug."
 )
@@ -30,7 +30,7 @@ if st.button("Go to Clinician Safety Checker"):
 
 st.markdown("---")
 
-# --- Initialize session state for inputs ---
+# --- Initialize session state ---
 if "mode" not in st.session_state:
     st.session_state["mode"] = "Drug"
 if "gene_input" not in st.session_state:
@@ -53,40 +53,47 @@ mode = st.radio(
 if mode != prev_mode:
     st.session_state["gene_input"] = ""
     st.session_state["drug_input"] = ""
+    st.session_state["searched"] = False
 st.session_state["mode"] = mode
 
 # --- Input based on mode ---
-input_val = ""
 if mode == "Drug":
     input_val = st.text_input("Type Drug name:", value=st.session_state["drug_input"]).strip()
 else:
     input_val = st.text_input("Type Gene name:", value=st.session_state["gene_input"]).strip()
 
+# --- Clear searched flag if input changes ---
+if (mode == "Drug" and input_val != st.session_state["drug_input"]) or \
+   (mode == "Gene" and input_val != st.session_state["gene_input"]):
+    st.session_state["searched"] = False
+
 # --- Search button ---
 search_triggered = st.button("Search")
 
-if search_triggered:
-    if not input_val:
-        st.warning("Please type a drug or gene name before searching.")
+if search_triggered and input_val:
+    # --- Convert to uppercase for API ---
+    input_val_upper = input_val.upper()
+
+    # --- Save input in session_state ---
+    if mode == "Drug":
+        st.session_state["drug_input"] = input_val_upper
     else:
-        input_val = input_val.upper()  # <-- Convert to uppercase for API
-        # Save input in session_state
-        if mode == "Drug":
-            st.session_state["drug_input"] = input_val
-        else:
-            st.session_state["gene_input"] = input_val
-        st.session_state["searched"] = True
+        st.session_state["gene_input"] = input_val_upper
+
+    st.session_state["searched"] = True
 
 # --- Only trigger API search in background, no table preview on home page ---
-if st.session_state.get("searched", False) and input_val:
-    st.info(f"⏳ Searching for interactions for **{input_val}**...")
+if st.session_state.get("searched", False):
+    input_val_upper = st.session_state["drug_input"] if mode == "Drug" else st.session_state["gene_input"]
+
+    st.info(f"⏳ Searching for interactions for **{input_val_upper}**...")
     progress_bar = st.progress(0)
     for i in range(1, 101):
         progress_bar.progress(i)
         time.sleep(0.005)  # simulate progress for UX
 
     url = "https://dgidb.org/api/graphql"
-    safe_name = json.dumps(input_val)  # GraphQL-safe
+    safe_name = json.dumps(input_val_upper)  # GraphQL-safe
 
     if mode == "Drug":
         query = f"""
@@ -133,7 +140,7 @@ if st.session_state.get("searched", False) and input_val:
             results = response.json()
             if mode == "Drug":
                 nodes = results.get("data", {}).get("drugs", {}).get("nodes", [])
-                exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val]
+                exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val_upper]
                 for node in exact_nodes:
                     for interaction in node.get("interactions", []):
                         gene = interaction["gene"]
@@ -144,7 +151,7 @@ if st.session_state.get("searched", False) and input_val:
                         })
             else:
                 nodes = results.get("data", {}).get("genes", {}).get("nodes", [])
-                exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val]
+                exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val_upper]
                 for node in exact_nodes:
                     for interaction in node.get("interactions", []):
                         drug = interaction["drug"]
@@ -167,6 +174,7 @@ if st.session_state.get("searched", False) and input_val:
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
 
 
 

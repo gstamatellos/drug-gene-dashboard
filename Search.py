@@ -29,6 +29,7 @@ if st.button("Visit page"):
     st.info("Please click the sidebar page **Clinician Safety Checker** to continue!")
 
 st.markdown("---")
+st.title("Drug - Gene Interactions")
 
 # --- Initialize session state ---
 if "mode" not in st.session_state:
@@ -177,6 +178,7 @@ if search_triggered and input_val:
 
 elif search_triggered and not input_val:
     st.warning("⚠️ Please enter a drug or gene name to search.")
+
 
 
 

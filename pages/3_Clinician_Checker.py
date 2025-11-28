@@ -98,7 +98,6 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
 
     # --- Display results ---
     if not matched.empty:
-        st.info(f"Currently viewing results for: **{search_term.title()}**")
         st.success(f"Found **{len(matched)}** variant annotations")
         st.markdown("---")
 
@@ -126,7 +125,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
             if len(high_risk) > 0:
                 st.warning(f"Patient may be at increased risk due to **{len(high_risk)} high-risk variant(s)** affecting toxicity.")
             else:
-                st.success("No high-risk toxicity variants detected.")
+                st.info("No high-risk toxicity variants detected.")
             
             if len(efficacy_variants) > 0:
                 summary_parts.append(f"- **{len(efficacy_variants)} variant(s)** may impact therapeutic efficacy.")

@@ -10,12 +10,18 @@ if "df" not in st.session_state or not st.session_state.get("valid_search", Fals
     st.stop()
 
 df = st.session_state["df"]
+
 if df.empty:
     st.warning("⚠️ No interactions found.")
     st.stop()
 
 mode = st.session_state["mode"]
-input_val = st.session_state["gene_input"] if mode == "Gene" else st.session_state["drug_input"]
+
+# Get the actual searched term (uppercase) instead of current input
+if mode == "Gene":
+    input_val = st.session_state.get("last_searched_gene", st.session_state.get("gene_input", ""))
+else:
+    input_val = st.session_state.get("last_searched_drug", st.session_state.get("drug_input", ""))
 
 # Ensure mode and df structure match
 expected_col = "Drug" if mode == "Gene" else "Gene"
@@ -23,9 +29,11 @@ if expected_col not in df.columns:
     st.error(f"❌ You are currently in {mode} mode, but the last results are from {expected_col} search. Please go back and perform a new search.")
     st.stop()
 
+# Display what results are being shown
+st.info(f"📊 Currently viewing results for: **{input_val}** ({mode} search)")
+
 # Show search summary
 st.subheader("Search Summary")
-
 if mode == "Gene":
     top_drug = df.sort_values("Score", ascending=False).iloc[0]["Drug"]
     st.markdown(f"""
@@ -34,7 +42,6 @@ if mode == "Gene":
     **Top scoring drug**: `{top_drug}`  
     🔗 [DrugBank](https://go.drugbank.com/unearth/q?query={top_drug}&searcher=drugs)    
     🔗 [PubChem](https://pubchem.ncbi.nlm.nih.gov/#query={top_drug})
-
     """)
 else:
     top_gene = df.sort_values("Score", ascending=False).iloc[0]["Gene"]
@@ -46,7 +53,6 @@ else:
     🔗 [NCBI](https://www.ncbi.nlm.nih.gov/gene/?term={top_gene})
     """)
 
-
 # Spacer
 st.markdown("---")
 st.subheader("Full Interaction Table")
@@ -57,50 +63,48 @@ st.dataframe(df, use_container_width=True)
 # Download button
 st.download_button("📥 Download as CSV", df.to_csv(index=False), file_name="interaction_data.csv")
 
-
+# Pharmacogenomic data section
 pharm_df = pd.read_csv("data/clinical_annotations.tsv", sep="\t")
 
-drug_name = st.session_state["drug_input"] if st.session_state["mode"] == "Drug" else None
-
-if drug_name:
+if mode == "Drug":
     # Spacer
     st.markdown("---")
-    pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == drug_name.upper()]
-    pharm_subset_index = pharm_subset.reset_index(drop = True)
-
+    
+    pharm_subset = pharm_df[pharm_df["Drug(s)"].str.upper() == input_val.upper()]
+    pharm_subset_index = pharm_subset.reset_index(drop=True)
+    
     if not pharm_subset.empty:
-        st.subheader(f"Pharmacogenomic Variants for {drug_name}")
+        st.subheader(f"Pharmacogenomic Variants for {input_val}")
         st.session_state["pharm_subset_index"] = pharm_subset_index
         
         st.markdown("""
         This table presents pharmacogenomic variant-drug associations along with clinical annotations to support personalized medicine applications. For more detailed info try searching in the **Clinician Safety Checker** section. Visuals are provided in **Visualizations**.
         """)
-
+        
         with st.expander("About these results"):
-            
             st.markdown("""
             - **Phenotype Category**: Type of drug response or outcome associated with the variant (e.g., toxicity, efficacy, dosage, metabolism/PK)
             - **Level of Evidence**: Graded from 1A (highest) to 4, indicating the strength of clinical support based on PharmGKB guidelines.  
                 [More details at PharmGKB](https://www.pharmgkb.org/page/clinAnnLevels)
             - **Clinical Annotation**: Description of observed phenotypes linked to the variant-drug combination, including disease associations or effects on drug response
             """)
-
+        
         st.dataframe(pharm_subset_index[[
             "Gene", "Variant/Haplotypes", "Phenotype Category", "Level of Evidence", "Clinical Annotation"
-        ]])
-
-# Download button
+        ]], use_container_width=True)
+        
+        # Download button
         st.download_button(
-        label="📥 Download as TSV",
-        data=pharm_subset_index.to_csv(index=False, sep='\t'),
-        file_name= "clinical_annotations.tsv",
-        mime="text/tab-separated-values"
-    )
-
+            label="📥 Download as TSV",
+            data=pharm_subset_index.to_csv(index=False, sep='\t'),
+            file_name="clinical_annotations.tsv",
+            mime="text/tab-separated-values"
+        )
     else:
-        st.info(f"No variant annotations found in PharmGKB for **{drug_name}**.")
+        st.info(f"No variant annotations found in PharmGKB for **{input_val}**.")
 
 
 
 
         
+

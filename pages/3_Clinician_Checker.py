@@ -296,7 +296,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
     else:
         st.markdown("---")
         st.warning(f"⚠️ No variant annotations found for **'{search_term}'**. Try another search term.")
-        st.info("💡 **Tips:**\n- Check spelling\n- Try a different search type\n- Use common drug names (e.g., 'warfarin' instead of 'Coumadin')")
+        st.info("💡 **Tips**\n- Check spelling\n- Try a different search type\n- Use generic drug names (e.g., 'paracetamol' instead of 'Depon')")
 
 elif st.session_state.clinic_search_triggered and not st.session_state.clinic_last_searched:
     st.info("🔍 Please enter a search term and click Search.")

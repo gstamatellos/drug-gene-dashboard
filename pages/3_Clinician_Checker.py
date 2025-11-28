@@ -136,24 +136,7 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
             else:
                 st.info("No genes with high evidence found for this search.")
 
-         # --- Filters ---
-        with st.expander("🔍 Filter results"):
-            pheno_filter = st.multiselect(
-                "Phenotype category",
-                matched["Response"].unique(),
-                default=matched["Response"].unique()
-            )
-            level_filter = st.multiselect(
-                "Evidence level",
-                matched["Evidence Level"].unique(),
-                default=matched["Evidence Level"].unique()
-            )
-            matched = matched[
-                matched["Response"].isin(pheno_filter) &
-                matched["Evidence Level"].isin(level_filter)
-            ]
-
-
+        st.markdown("---")
         # --- Summary counts ---
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]
 
@@ -173,6 +156,23 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
         ]
 
         st.markdown("### 🔎 Summary")
+        # --- Filters ---
+        with st.expander("🔍 Filter results"):
+            pheno_filter = st.multiselect(
+                "Phenotype category",
+                matched["Response"].unique(),
+                default=matched["Response"].unique()
+            )
+            level_filter = st.multiselect(
+                "Evidence level",
+                matched["Evidence Level"].unique(),
+                default=matched["Evidence Level"].unique()
+            )
+            matched = matched[
+                matched["Response"].isin(pheno_filter) &
+                matched["Evidence Level"].isin(level_filter)
+            ]
+        
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("High Evidence", len(high_ev))
         col2.metric("High-Risk Variants", len(high_risk))

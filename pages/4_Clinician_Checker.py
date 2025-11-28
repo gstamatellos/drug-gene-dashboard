@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 
 st.set_page_config(page_title="Clinician Safety Checker", layout="wide")
-st.title("Clinician Safety Checker **NEW**")
+st.title("Clinician Safety Checker    🟩 **NEW**")
 
 st.markdown("""
 Check if a prescribed drug has **associated genetic variants** that affect patient safety, efficacy, or dosing.  

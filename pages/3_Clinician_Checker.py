@@ -107,7 +107,7 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
 
         # --- Recommended Gene Panel (only for Drug and Disease searches) ---
         if search_type in ["Drug", "Disease/Phenotype"]:
-            st.markdown("### 🧬 Recommended Gene Panel")
+            st.markdown("### Recommended Gene Panel")
             st.markdown("_Panel generated from variants with Evidence Level 1A, 1B, 2A, 2B only._")
             
             # Keep only clinically significant variants

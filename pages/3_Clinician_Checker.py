@@ -99,7 +99,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
     # --- Display results ---
     if not matched.empty:
         st.markdown("---")
-        st.info(f"📊 Currently viewing results for: **{search_term.title()}** ({current_type} search)")
+        st.info(f"📊 Currently viewing results for: **{search_term.title()}**")
         st.success(f"✅ Found **{len(matched)}** variant annotations")
 
         # --- 1. Clinical Summary (Drug only) ---
@@ -124,20 +124,20 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
             summary_parts = []
             
             if len(high_risk) > 0:
-                summary_parts.append(f"⚠️ **Patient may be at increased risk** due to **{len(high_risk)} high-risk variant(s)** affecting toxicity.")
+                summary_parts.append(f"⚠️ Patient may be at increased risk due to **{len(high_risk)} high-risk variant(s)** affecting toxicity.")
             else:
                 summary_parts.append("✅ No high-risk toxicity variants detected.")
             
             if len(efficacy_variants) > 0:
-                summary_parts.append(f"• **{len(efficacy_variants)} variant(s)** may impact therapeutic efficacy.")
+                summary_parts.append(f"- **{len(efficacy_variants)} variant(s)** may impact therapeutic efficacy.")
             
             if len(dosage_issues) > 0:
-                summary_parts.append(f"• **{len(dosage_issues)} variant(s)** may require dose adjustments.")
+                summary_parts.append(f"- **{len(dosage_issues)} variant(s)** may require dose adjustments.")
             
             if len(important_genes) > 0:
                 gene_list = ', '.join(sorted(important_genes))
-                summary_parts.append(f"• **Key genes of clinical importance:** {gene_list}")
-                summary_parts.append("**Genetic testing is strongly recommended** to guide therapy.")
+                summary_parts.append(f"- Key genes of clinical importance: {gene_list}")
+                summary_parts.append("Genetic testing is recommended to guide therapy.")
             else:
                 summary_parts.append("• No high-evidence genes identified. Genetic testing may be considered based on clinical context.")
 

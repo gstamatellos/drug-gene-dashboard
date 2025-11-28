@@ -102,41 +102,41 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
         st.success(f"Found {len(matched)} variant annotations for **{search_input.title()}**")
 
         # ------------------------------
-        # --- 1. Clinical Summary Generator ---
+        # --- 1. Clinical Summary Generator (DRUG only) ---
         # ------------------------------
-        st.markdown("### 📝 Clinical Summary")
-        high_risk = matched[
-            (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
-            (matched["Response"].str.contains("Toxicity", case=False))
-        ]
-        important_genes = matched[matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])]["Gene"].unique()
-        dosage_issues = matched[
-            (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
-            (matched["Response"].str.contains("Dosage", case=False))
-        ]
-        efficacy_issues = matched[
-            (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
-            (matched["Response"].str.contains("Efficacy", case=False))
-        ]
+        if search_type == "Drug":
+            st.markdown("### Clinical Summary")
+            high_risk = matched[
+                (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
+                (matched["Response"].str.contains("Toxicity", case=False))
+            ]
+            efficacy_variants = matched[
+                (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
+                (matched["Response"].str.contains("Efficacy", case=False))
+            ]
+            dosage_issues = matched[
+                (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
+                (matched["Response"].str.contains("Dosage", case=False))
+            ]
+            important_genes = matched[matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])]["Gene"].unique()
 
-        summary_text = ""
-        summary_text += (f"⚠️ Patient may be at increased risk due to {len(high_risk)} "
-                         f"high-risk variant(s) affecting toxicity. " if len(high_risk) > 0 else
-                         "No high-risk toxicity variants detected. ")
-        summary_text += (f"The following genes are of clinical importance: {', '.join(sorted(important_genes))}. "
-                         if len(important_genes) > 0 else
-                         "No high-evidence genes identified. ")
-        summary_text += ("Genetic testing is strongly recommended to guide therapy. "
-                         if len(important_genes) > 0 else
-                         "Genetic testing may be considered based on clinical context. ")
-        safety_notes = []
-        if len(dosage_issues) > 0:
-            safety_notes.append(f"{len(dosage_issues)} variants suggest dosage adjustments may be required")
-        if len(efficacy_issues) > 0:
-            safety_notes.append(f"{len(efficacy_issues)} variants may affect drug efficacy")
-        if safety_notes:
-            summary_text += "Safety considerations: " + "; ".join(safety_notes) + "."
-        st.markdown(summary_text)
+            summary_text = ""
+            # Patient risk
+            summary_text += (f"⚠️ Patient may be at increased risk due to {len(high_risk)} "
+                             f"high-risk variant(s) affecting toxicity. " if len(high_risk) > 0 else
+                             "No high-risk toxicity variants detected. ")
+            # Efficacy
+            if len(efficacy_variants) > 0:
+                summary_text += f"{len(efficacy_variants)} variant(s) may positively or negatively impact therapeutic efficacy. "
+            # Dosage
+            if len(dosage_issues) > 0:
+                summary_text += f"{len(dosage_issues)} variant(s) may require dose adjustments. "
+            # Genes & testing
+            summary_text += (f"The following genes are of clinical importance: {', '.join(sorted(important_genes))}. "
+                             if len(important_genes) > 0 else "No high-evidence genes identified. ")
+            summary_text += ("Genetic testing is strongly recommended to guide therapy. "
+                             if len(important_genes) > 0 else "Genetic testing may be considered based on clinical context.")
+            st.markdown(summary_text)
 
         # ------------------------------
         # --- 2. Recommended Gene Panel (Drug/Disease only) ---

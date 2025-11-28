@@ -12,7 +12,7 @@ Data is sourced from **ClinPGx clinical annotations.**
 st.markdown("---")
 
 # ------------------------------
-# --- Session State Fix -------
+# --- Session State ------------
 # ------------------------------
 if "search_triggered" not in st.session_state:
     st.session_state.search_triggered = False
@@ -49,7 +49,7 @@ def load_annotations():
 annotations_df = load_annotations()
 
 
-# --- Search type selection (Gene added earlier) ---
+# --- Search type selection ---
 search_type = st.radio(
     "Search by drug name (e.g. warfarin), disease/phenotype (e.g. hemorrhage), or gene (e.g. CYP2C19)",
     ["Drug", "Disease/Phenotype", "Gene"],
@@ -105,7 +105,7 @@ if st.session_state.search_triggered:
         st.markdown("---")
 
         # ------------------------------
-        # Filters (now stable!)
+        # Filters 
         # ------------------------------
         with st.expander("🔍 Filter results"):
             pheno_filter = st.multiselect(
@@ -122,6 +122,28 @@ if st.session_state.search_triggered:
                 matched["Response"].isin(pheno_filter) &
                 matched["Evidence Level"].isin(level_filter)
             ]
+
+        # ------------------------------
+        # --- Recommended Gene Panel ---
+        # ------------------------------
+        st.markdown("### 🧬 Recommended Gene Panel")
+
+        gene_rows = matched[['Gene', 'Evidence Level']].dropna()
+        if not gene_rows.empty:
+            best_levels = (
+                gene_rows.groupby('Gene')['Evidence Level']
+                .apply(lambda x: x.mode()[0])
+                .reset_index()
+            )
+
+            priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4, "3": 5}
+            best_levels['priority'] = best_levels['Evidence Level'].map(priority)
+            best_levels = best_levels.sort_values('priority')
+
+            for _, row in best_levels.iterrows():
+                st.markdown(f"- **{row['Gene']}** — evidence: *{row['Evidence Level']}*")
+        else:
+            st.info("No genes found for this search.")
 
         # --- Summary counts ---
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]

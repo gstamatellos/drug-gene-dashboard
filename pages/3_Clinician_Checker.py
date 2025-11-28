@@ -35,8 +35,13 @@ def load_annotations():
 
 annotations_df = load_annotations()
 
-# --- Search type selection ---
-search_type = st.radio("Search by drug name (e.g. warfarin, clopidogrel) or by disease/phenotype (e.g. heart failure, hemorrhage)", ["Drug", "Disease/Phenotype"], horizontal=True)
+# --- Search type selection (ADDED: Gene) ---
+search_type = st.radio(
+    "Search by drug name (e.g. warfarin, clopidogrel), disease/phenotype (e.g. heart failure, hemorrhage), or gene (e.g. CYP2C19, TPMT)",
+    ["Drug", "Disease/Phenotype", "Gene"],
+    horizontal=True
+)
+
 search_input = st.text_input(f"Type {search_type.lower()} and press Enter:")
 search_button = st.button("Search")
 
@@ -44,10 +49,22 @@ if search_input and search_button:
     if search_input.strip() == "":
         st.info("👋 Please enter a term above to begin.")
     else:
+
+        # --- Search logic (ADDED: Gene branch) ---
         if search_type == "Drug":
-            matched = annotations_df[annotations_df["Drug"].str.lower().str.contains(search_input.strip().lower())]
-        else:
-            matched = annotations_df[annotations_df["Note"].str.lower().str.contains(search_input.strip().lower(), na=False)]
+            matched = annotations_df[
+                annotations_df["Drug"].str.lower().str.contains(search_input.strip().lower())
+            ]
+
+        elif search_type == "Disease/Phenotype":
+            matched = annotations_df[
+                annotations_df["Note"].str.lower().str.contains(search_input.strip().lower(), na=False)
+            ]
+
+        else:  # --- NEW GENE SEARCH ---
+            matched = annotations_df[
+                annotations_df["Gene"].str.lower().str.contains(search_input.strip().lower())
+            ]
 
         if not matched.empty:
             st.markdown(" ")
@@ -55,9 +72,20 @@ if search_input and search_button:
             st.markdown("---")
 
             with st.expander("🔍 Filter results"):
-                pheno_filter = st.multiselect("Phenotype category", matched["Response"].unique(), default=matched["Response"].unique())
-                level_filter = st.multiselect("Evidence level", matched["Evidence Level"].unique(), default=matched["Evidence Level"].unique())
-                matched = matched[matched["Response"].isin(pheno_filter) & matched["Evidence Level"].isin(level_filter)]
+                pheno_filter = st.multiselect(
+                    "Phenotype category",
+                    matched["Response"].unique(),
+                    default=matched["Response"].unique()
+                )
+                level_filter = st.multiselect(
+                    "Evidence level",
+                    matched["Evidence Level"].unique(),
+                    default=matched["Evidence Level"].unique()
+                )
+                matched = matched[
+                    matched["Response"].isin(pheno_filter) &
+                    matched["Evidence Level"].isin(level_filter)
+                ]
 
             # --- Summary counts ---
             high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]
@@ -89,18 +117,22 @@ if search_input and search_button:
                 color = ""
                 if row["Evidence Level"] in ["1A", "1B", "2A"]:
                     if row["Response"] in ["Toxicity"]:
-                        color = "background-color: #ffcccc"  # light red
+                        color = "background-color: #ffcccc"
                     elif row["Response"] in ["Efficacy"]:
-                        color = "background-color: #d0f0c0"  # light green
+                        color = "background-color: #d0f0c0"
                     elif row["Response"] in ["Dosage"]:
-                        color = "background-color: #ffffcc"  # light yellow
+                        color = "background-color: #ffffcc"
                 return [color] * len(row)
 
             styled_df = matched.style.apply(color_row, axis=1)
 
             st.dataframe(styled_df, use_container_width=True)
 
-            st.download_button("📥 Download results as CSV", data=matched.to_csv(index=False), file_name=f"{search_input}_{search_type.lower()}_variant_safety.csv")
+            st.download_button(
+                "📥 Download results as CSV",
+                data=matched.to_csv(index=False),
+                file_name=f"{search_input}_{search_type.lower()}_variant_safety.csv"
+            )
 
             st.markdown(" ")
 
@@ -108,31 +140,28 @@ if search_input and search_button:
                 st.markdown("""
                 The table above shows pharmacogenomic variant annotations linked to the selected drug or disease. Each row represents a **gene–variant–drug** interaction affecting:
 
-                - **Toxicity** — risk of severe or fatal reactions  
-                - **Efficacy** — likelihood of therapeutic success  
-                - **Dosage** — recommended changes in dose based on genotype  
-                - **Metabolism/PK** — how fast or slow a drug is processed  
-                - **PD (Pharmacodynamics)** — how genetic changes affect drug targets  
+                - **Toxicity**
+                - **Efficacy**
+                - **Dosage**
+                - **Metabolism/PK**
+                - **PD (Pharmacodynamics)**
 
-                The variants shown can guide **clinical decisions** and help select the appropriate **gene panel** for preemptive testing.
+                These variants help guide clinical decisions and selection of gene panels.
                 """)
 
             with st.expander("What do evidence levels mean?"):
                 st.markdown("""
                 **Evidence Level Summary (from PharmGKB)**  
-                - **1A**: Variant-drug pair with variant-specific prescribing guidance in a clinical guideline or FDA drug label, and at least one supporting publication  
-                - **1B**: High evidence from ≥2 independent publications, but no prescribing guidance in guidelines or FDA labels  
-                - **2A**: Moderate evidence from ≥2 publications; variant is in a Very Important Pharmacogene (VIP), indicating higher likelihood of causation
-
-                [More details at PharmGKB](https://www.pharmgkb.org/page/clinAnnLevels)
+                - **1A**: Guideline or FDA label + supporting publication  
+                - **1B**: High evidence from ≥2 studies  
+                - **2A**: Moderate evidence and in a VIP gene  
                 """)
 
             with st.expander("The **Note** column"):
                 st.markdown("""
-                Provides context about phenotypes related to the variant/allele–drug association. It may indicate:
-
-                - The phenotype (e.g. disease) in which the association was observed  
-                - A phenotype that may result from the variant–drug interaction  
+                Provides context about phenotypes associated with the variant–drug interaction.
                 """)
+
         else:
             st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
+

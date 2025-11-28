@@ -124,9 +124,9 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
             summary_parts = []
             
             if len(high_risk) > 0:
-                summary_parts.append(f"⚠️ Patient may be at increased risk due to **{len(high_risk)} high-risk variant(s)** affecting toxicity.")
+                st.warning(f"Patient may be at increased risk due to **{len(high_risk)} high-risk variant(s)** affecting toxicity.")
             else:
-                summary_parts.append("✅ No high-risk toxicity variants detected.")
+                st.success("No high-risk toxicity variants detected.")
             
             if len(efficacy_variants) > 0:
                 summary_parts.append(f"- **{len(efficacy_variants)} variant(s)** may impact therapeutic efficacy.")

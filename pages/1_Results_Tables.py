@@ -30,7 +30,7 @@ if expected_col not in df.columns:
     st.stop()
 
 # Display what results are being shown
-st.info(f"📊 Currently viewing results for: **{input_val}** ({mode} search)")
+st.info(f"📊 Currently viewing results for: **{input_val}**")
 
 # Show search summary
 st.subheader("Search Summary")
@@ -107,4 +107,5 @@ if mode == "Drug":
 
 
         
+
 

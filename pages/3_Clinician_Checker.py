@@ -12,7 +12,7 @@ Data is sourced from **ClinPGx clinical annotations.**
 st.markdown("---")
 
 # ------------------------------
-# --- Session State ------------
+# --- Session State Fix -------
 # ------------------------------
 if "search_triggered" not in st.session_state:
     st.session_state.search_triggered = False
@@ -75,7 +75,9 @@ if search_button:
         st.session_state.search_triggered = False
 
 
-# Run the search if previously triggered
+# ------------------------------
+# --- Only show results if search triggered ---
+# ------------------------------
 if st.session_state.search_triggered:
     search_input = st.session_state.saved_input
     search_type = st.session_state.saved_type
@@ -96,17 +98,13 @@ if st.session_state.search_triggered:
             annotations_df["Gene"].str.lower().str.contains(search_input.strip().lower(), na=False)
         ]
 
-    # ------------------------------
-    # --- Results Section ----------
-    # ------------------------------
+    # --- Only show results if matches exist ---
     if not matched.empty:
         st.markdown(" ")
         st.success(f"Found {len(matched)} variant annotations for **{search_input.title()}**")
         st.markdown("---")
 
-        # ------------------------------
-        # Filters 
-        # ------------------------------
+        # --- Filters ---
         with st.expander("🔍 Filter results"):
             pheno_filter = st.multiselect(
                 "Phenotype category",
@@ -123,27 +121,32 @@ if st.session_state.search_triggered:
                 matched["Evidence Level"].isin(level_filter)
             ]
 
-        # ------------------------------
-        # --- Recommended Gene Panel ---
-        # ------------------------------
-        st.markdown("### 🧬 Recommended Gene Panel")
+        # --- Recommended Gene Panel (only for Drug and Disease searches) ---
+        if search_type in ["Drug", "Disease/Phenotype"]:
+            st.markdown("### 🧬 Recommended Gene Panel")
+            gene_rows = matched[['Gene', 'Evidence Level', 'Drug']].dropna()
+            if not gene_rows.empty:
+                # For each gene, show strongest evidence
+                best_levels = (
+                    gene_rows.groupby('Gene')['Evidence Level']
+                    .apply(lambda x: x.mode()[0])
+                    .reset_index()
+                )
 
-        gene_rows = matched[['Gene', 'Evidence Level']].dropna()
-        if not gene_rows.empty:
-            best_levels = (
-                gene_rows.groupby('Gene')['Evidence Level']
-                .apply(lambda x: x.mode()[0])
-                .reset_index()
-            )
+                priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4, "3": 5}
+                best_levels['priority'] = best_levels['Evidence Level'].map(priority)
+                best_levels = best_levels.sort_values('priority')
 
-            priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4, "3": 5}
-            best_levels['priority'] = best_levels['Evidence Level'].map(priority)
-            best_levels = best_levels.sort_values('priority')
-
-            for _, row in best_levels.iterrows():
-                st.markdown(f"- **{row['Gene']}** — evidence: *{row['Evidence Level']}*")
-        else:
-            st.info("No genes found for this search.")
+                for _, row in best_levels.iterrows():
+                    # For disease searches, also list drugs associated with the gene
+                    if search_type == "Disease/Phenotype":
+                        drugs_for_gene = gene_rows[gene_rows['Gene'] == row['Gene']]['Drug'].unique()
+                        drugs_str = ", ".join(drugs_for_gene)
+                        st.markdown(f"- **{row['Gene']}** — evidence: *{row['Evidence Level']}* — Drugs: {drugs_str}")
+                    else:
+                        st.markdown(f"- **{row['Gene']}** — evidence: *{row['Evidence Level']}*")
+            else:
+                st.info("No genes found for this search.")
 
         # --- Summary counts ---
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]
@@ -222,4 +225,3 @@ if st.session_state.search_triggered:
 
     else:
         st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
-

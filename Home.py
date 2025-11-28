@@ -3,8 +3,8 @@ import requests
 import pandas as pd
 import json
 
-# --- Page config ---
-st.set_page_config(page_title="PharmXplorer", layout="wide")
+# --- Browser tab title and full-width layout ---
+st.set_page_config(page_title="Home | PharmXplorer", layout="wide")
 st.image("data/home_image.png")
 st.title("Welcome to Drug ⇄ Gene Interaction Explorer")
 
@@ -17,13 +17,17 @@ After searching, you can explore:
 - **Results Tables** 
 - **Interaction - Annotation Visuals**  
 """)
+st.markdown("---")
 
 # --- Clinician Safety Checker button in main page ---
-st.markdown("### 🩺 Clinician Safety Checker")
-st.markdown("Quickly check patient safety and pharmacogenomic variants associated with a drug.")
+st.markdown("### Clinician Safety Checker")
+st.markdown(
+    "Quickly check patient safety and pharmacogenomic variants associated with a drug."
+)
 if st.button("Go to Clinician Safety Checker"):
-    # Redirect to the multipage Clinician Checker
+    # Navigate to the Clinician Checker page
     st.experimental_set_query_params(page="Clinician_Checker")
+    st.experimental_rerun()  # Force Streamlit to reload with new page
 
 st.markdown("---")
 
@@ -71,9 +75,8 @@ if search_triggered:
         st.session_state["gene_input"] = input_val
     st.session_state["searched"] = True
 
-# --- Only search if triggered ---
+# --- Only trigger API search in background, no table preview on home page ---
 if st.session_state["searched"] and input_val:
-    # --- API setup ---
     url = "https://dgidb.org/api/graphql"
     safe_name = json.dumps(input_val)
 
@@ -115,16 +118,14 @@ if st.session_state["searched"] and input_val:
         }}
         """
 
-    # Send request
-    response = requests.post(url, json={"query": query})
-    interactions = []
-
-    if response.status_code == 200:
-        results = response.json()
-        if mode == "Drug":
-            nodes = results.get("data", {}).get("drugs", {}).get("nodes", [])
-            exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val]
-            if exact_nodes:
+    try:
+        response = requests.post(url, json={"query": query})
+        interactions = []
+        if response.status_code == 200:
+            results = response.json()
+            if mode == "Drug":
+                nodes = results.get("data", {}).get("drugs", {}).get("nodes", [])
+                exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val]
                 for node in exact_nodes:
                     for interaction in node.get("interactions", []):
                         gene = interaction["gene"]
@@ -133,10 +134,9 @@ if st.session_state["searched"] and input_val:
                             "Description": gene.get("longName", "N/A"),
                             "Score": interaction.get("interactionScore", 0)
                         })
-        else:
-            nodes = results.get("data", {}).get("genes", {}).get("nodes", [])
-            exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val]
-            if exact_nodes:
+            else:
+                nodes = results.get("data", {}).get("genes", {}).get("nodes", [])
+                exact_nodes = [n for n in nodes if n.get("name", "").upper() == input_val]
                 for node in exact_nodes:
                     for interaction in node.get("interactions", []):
                         drug = interaction["drug"]
@@ -145,25 +145,18 @@ if st.session_state["searched"] and input_val:
                             "ID": drug.get("conceptId", "N/A"),
                             "Score": interaction.get("interactionScore", 0)
                         })
-        if interactions:
-            df = pd.DataFrame(interactions)
-            if df.empty:
-                st.session_state["valid_search"] = False
-            else:
-                st.session_state["df"] = df
+            # Store dataframe in session_state but do NOT display table on homepage
+            if interactions:
+                st.session_state["df"] = pd.DataFrame(interactions)
                 st.session_state["valid_search"] = True
-                st.success("✅ Interactions retrieved! Use the sidebar to explore results.")
+            else:
+                st.session_state["valid_search"] = False
         else:
             st.session_state["valid_search"] = False
-    else:
-        st.error(f"❌ API request failed with status code {response.status_code}")
+            st.error(f"❌ API request failed with status code {response.status_code}")
+    except Exception as e:
         st.session_state["valid_search"] = False
-
-# --- Optional: show a small table preview if available ---
-if st.session_state.get("valid_search", False):
-    st.markdown("---")
-    st.markdown(f"### Results Preview ({mode} search)")
-    st.dataframe(st.session_state["df"].head(10), use_container_width=True)
+        st.error(f"❌ API request error: {e}")
 
 
 

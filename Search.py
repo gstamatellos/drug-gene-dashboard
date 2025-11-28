@@ -163,6 +163,7 @@ if search_triggered and input_val:
             if interactions:
                 st.session_state["df"] = pd.DataFrame(interactions)
                 st.session_state["valid_search"] = True
+                st.session_state["results"] = results  # Store full results for interaction types
                 st.success(f"✅ Search completed for **{input_val_upper}**! Use the sidebar to explore results.")
             else:
                 st.session_state["valid_search"] = False
@@ -176,19 +177,6 @@ if search_triggered and input_val:
 
 elif search_triggered and not input_val:
     st.warning("⚠️ Please enter a drug or gene name to search.")
-
-# --- Display last searched info if available ---
-if st.session_state.get("valid_search", False):
-    if mode == "Drug" and st.session_state.get("last_searched_drug"):
-        st.info(f"📊 Currently viewing results for: **{st.session_state['last_searched_drug']}**")
-    elif mode == "Gene" and st.session_state.get("last_searched_gene"):
-        st.info(f"📊 Currently viewing results for: **{st.session_state['last_searched_gene']}**")
-
-
-
-
-
-
 
 
 

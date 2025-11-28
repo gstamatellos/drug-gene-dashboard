@@ -167,7 +167,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                                   f"   • Variants: {row['Variant']}  \n"
                                   f"   • Associated drugs: {row['Drug']}")
                     else:
-                        st.markdown(f"**{idx+1}.** **{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
+                        st.markdown(f"**{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
                                   f"   • Variants: {row['Variant']}")
             else:
                 st.info("No genes with high evidence (1A, 1B, 2A, 2B) found for this search.")

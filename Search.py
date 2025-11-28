@@ -6,8 +6,8 @@ import time
 
 # --- Browser tab title and full-width layout ---
 st.set_page_config(page_title="Home", layout="wide")
-st.image("data/home_image.png")
 st.title("Welcome to Drug ⇄ Gene Interaction Explorer")
+st.image("data/home_image.png")
 
 # --- Intro text ---
 st.markdown("""
@@ -178,6 +178,7 @@ if search_triggered and input_val:
 
 elif search_triggered and not input_val:
     st.warning("⚠️ Please enter a drug or gene name to search.")
+
 
 
 

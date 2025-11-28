@@ -50,7 +50,6 @@ search_type = st.radio(
     "Search by:",
     ["Drug", "Disease/Phenotype", "Gene"],
     horizontal=True,
-    help="Search by drug name (e.g., warfarin), disease/phenotype (e.g., hemorrhage), or gene (e.g., CYP2C19)"
 )
 
 # Store search type
@@ -121,15 +120,6 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
             ]
             important_genes = matched[matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])]["Gene"].dropna().unique()
 
-            # Display metrics in columns
-            col1, col2, col3 = st.columns(3)
-            with col1:
-                st.metric("⚠️ High-Risk (Toxicity)", len(high_risk))
-            with col2:
-                st.metric("✅ Efficacy Variants", len(efficacy_variants))
-            with col3:
-                st.metric("💊 Dosage Adjustments", len(dosage_issues))
-
             # Summary text
             summary_parts = []
             
@@ -147,7 +137,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
             if len(important_genes) > 0:
                 gene_list = ', '.join(sorted(important_genes))
                 summary_parts.append(f"• **Key genes of clinical importance:** {gene_list}")
-                summary_parts.append("🧬 **Genetic testing is strongly recommended** to guide therapy.")
+                summary_parts.append("**Genetic testing is strongly recommended** to guide therapy.")
             else:
                 summary_parts.append("• No high-evidence genes identified. Genetic testing may be considered based on clinical context.")
 

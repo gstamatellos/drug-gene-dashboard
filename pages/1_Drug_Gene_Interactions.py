@@ -4,8 +4,8 @@ import pandas as pd
 import json
 import time
 
-st.markdown("---")
 st.title("Drug - Gene Interactions")
+st.markdown("---")
 
 # --- Initialize session state ---
 if "mode" not in st.session_state:

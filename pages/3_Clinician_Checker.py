@@ -161,7 +161,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                 gene_group['priority'] = gene_group['Evidence Level'].map(priority)
                 gene_group = gene_group.sort_values('priority')
                 
-                for idx, row in gene_group.iterrows():
+                for row in gene_group.iterrows():
                     if current_type == "Disease/Phenotype":
                         st.markdown(f" **{row['Gene']}**  \n"
                                   f"   • Variants: {row['Variant']}  \n"

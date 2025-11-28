@@ -61,7 +61,7 @@ if search_input and search_button:
                 annotations_df["Note"].str.lower().str.contains(search_input.strip().lower(), na=False)
             ]
 
-            else:  # --- NEW GENE SEARCH ---
+        else:  # --- NEW GENE SEARCH ---
             matched = annotations_df[
                 annotations_df["Gene"].str.lower().str.contains(search_input.strip().lower(), na=False)
             ]

@@ -100,60 +100,91 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
     if not matched.empty:
         st.markdown(" ")
         st.success(f"Found {len(matched)} variant annotations for **{search_input.title()}**")
-        
-        # --- Recommended Gene Panel (only for Drug and Disease searches) ---
+
+        # ------------------------------
+        # --- 1. Clinical Summary Generator ---
+        # ------------------------------
+        st.markdown("### 📝 Clinical Summary")
+        high_risk = matched[
+            (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
+            (matched["Response"].str.contains("Toxicity", case=False))
+        ]
+        important_genes = matched[matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])]["Gene"].unique()
+        dosage_issues = matched[
+            (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
+            (matched["Response"].str.contains("Dosage", case=False))
+        ]
+        efficacy_issues = matched[
+            (matched["Evidence Level"].isin(["1A", "1B", "2A", "2B"])) &
+            (matched["Response"].str.contains("Efficacy", case=False))
+        ]
+
+        summary_text = ""
+        summary_text += (f"⚠️ Patient may be at increased risk due to {len(high_risk)} "
+                         f"high-risk variant(s) affecting toxicity. " if len(high_risk) > 0 else
+                         "No high-risk toxicity variants detected. ")
+        summary_text += (f"The following genes are of clinical importance: {', '.join(sorted(important_genes))}. "
+                         if len(important_genes) > 0 else
+                         "No high-evidence genes identified. ")
+        summary_text += ("Genetic testing is strongly recommended to guide therapy. "
+                         if len(important_genes) > 0 else
+                         "Genetic testing may be considered based on clinical context. ")
+        safety_notes = []
+        if len(dosage_issues) > 0:
+            safety_notes.append(f"{len(dosage_issues)} variants suggest dosage adjustments may be required")
+        if len(efficacy_issues) > 0:
+            safety_notes.append(f"{len(efficacy_issues)} variants may affect drug efficacy")
+        if safety_notes:
+            summary_text += "Safety considerations: " + "; ".join(safety_notes) + "."
+        st.markdown(summary_text)
+
+        # ------------------------------
+        # --- 2. Recommended Gene Panel (Drug/Disease only) ---
+        # ------------------------------
         if search_type in ["Drug", "Disease/Phenotype"]:
             st.markdown("---")
             st.markdown("### Recommended Gene Panel")
             st.markdown("_Panel generated from variants with Evidence Level 1A, 1B, 2A, 2B only._")
-            
-            # Keep only clinically significant variants
+
             panel_df = matched[matched["Evidence Level"].isin(["1A","1B","2A","2B"])].copy()
-            
             if not panel_df.empty:
-                # Group by gene, aggregate variants (and drugs for disease)
                 gene_group = panel_df.groupby('Gene').agg({
                     'Variant': lambda x: ", ".join(sorted(set(x))),
                     'Drug': lambda x: ", ".join(sorted(set(x))),
                     'Evidence Level': lambda x: x.mode()[0]
                 }).reset_index()
-
-                # Sort by Evidence Level priority
                 priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4}
                 gene_group['priority'] = gene_group['Evidence Level'].map(priority)
                 gene_group = gene_group.sort_values('priority')
-
-                # Display
                 for _, row in gene_group.iterrows():
                     if search_type == "Disease/Phenotype":
                         drugs_for_gene = row['Drug']
                         st.markdown(f"- **{row['Gene']}** — variants: {row['Variant']} — Drugs: {drugs_for_gene}")
-                    else:  # Drug search
+                    else:
                         st.markdown(f"- **{row['Gene']}** — variants: {row['Variant']}")
             else:
                 st.info("No genes with high evidence found for this search.")
 
-            st.markdown("---")  # separator before summary
+            st.markdown("---")
 
-        # --- Summary counts ---
+        # ------------------------------
+        # --- 3. Associations Table ---
+        # ------------------------------
+        st.markdown("### Associations Table")
+
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]
-
         high_risk = matched[
             (matched["Evidence Level"].isin(["1A", "1B", "2A"])) &
             (matched["Response"].str.contains("Toxicity", case=False))
         ]
-
         efficacy = matched[
             (matched["Evidence Level"].isin(["1A", "1B", "2A"])) &
             (matched["Response"].str.contains("Efficacy", case=False))
         ]
-
         dosage = matched[
             (matched["Evidence Level"].isin(["1A", "1B", "2A"])) &
             (matched["Response"].str.contains("Dosage", case=False))
         ]
-
-        st.markdown("### 🔎 Summary")
 
         # --- Filters ---
         with st.expander("🔍 Filter results"):
@@ -171,14 +202,13 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
                 matched["Response"].isin(pheno_filter) &
                 matched["Evidence Level"].isin(level_filter)
             ]
-        
+
         col1, col2, col3, col4 = st.columns(4)
         col1.metric("High Evidence", len(high_ev))
         col2.metric("High-Risk Variants", len(high_risk))
         col3.metric("Probable therapeutic success", len(efficacy))
         col4.metric("Recommended dosage changes", len(dosage))
 
-        # --- Color-coding for clinical relevance ---
         def color_row(row):
             color = ""
             if row["Evidence Level"] in ["1A", "1B", "2A"]:
@@ -191,7 +221,6 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
             return [color] * len(row)
 
         styled_df = matched.style.apply(color_row, axis=1)
-
         st.dataframe(styled_df, use_container_width=True)
 
         st.download_button(
@@ -211,8 +240,6 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
             - **Dosage**
             - **Metabolism/PK**
             - **PD (Pharmacodynamics)**
-
-            These variants help guide clinical decisions and selection of gene panels.
             """)
 
         with st.expander("What do evidence levels mean?"):
@@ -230,4 +257,5 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
 
     else:
         st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
+
 

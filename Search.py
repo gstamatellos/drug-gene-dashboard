@@ -2,6 +2,7 @@ import streamlit as st
 import requests
 import pandas as pd
 import json
+import time
 
 # --- Browser tab title and full-width layout ---
 st.set_page_config(page_title="Home | PharmXplorer", layout="wide")
@@ -17,17 +18,16 @@ After searching, you can explore:
 - **Results Tables** 
 - **Interaction - Annotation Visuals**  
 """)
-st.markdown("---")
 
 # --- Clinician Safety Checker button in main page ---
-st.markdown("### Clinician Safety Checker")
+st.markdown("### 🩺 Clinician Safety Checker")
 st.markdown(
     "Quickly check patient safety and pharmacogenomic variants associated with a drug."
 )
 if st.button("Go to Clinician Safety Checker"):
-    # Navigate to the Clinician Checker page
-    st.experimental_set_query_params(page="Clinician_Checker")
-    st.experimental_rerun()  # Force Streamlit to reload with new page
+    # Set a flag in session state
+    st.session_state["goto_clinician_checker"] = True
+    st.info("Please click the sidebar page **Clinician Safety Checker** to continue!")
 
 st.markdown("---")
 
@@ -67,16 +67,25 @@ else:
 search_triggered = st.button("Search")
 
 if search_triggered:
-    input_val = input_val.upper()  # standardize
-    # Save input in session_state
-    if mode == "Drug":
-        st.session_state["drug_input"] = input_val
+    if not input_val:
+        st.warning("Please type a drug or gene name before searching.")
     else:
-        st.session_state["gene_input"] = input_val
-    st.session_state["searched"] = True
+        input_val = input_val.upper()  # standardize
+        # Save input in session_state
+        if mode == "Drug":
+            st.session_state["drug_input"] = input_val
+        else:
+            st.session_state["gene_input"] = input_val
+        st.session_state["searched"] = True
 
 # --- Only trigger API search in background, no table preview on home page ---
-if st.session_state["searched"] and input_val:
+if st.session_state.get("searched", False) and input_val:
+    st.info(f"⏳ Searching for interactions for **{input_val}**...")
+    progress_bar = st.progress(0)
+    for i in range(1, 101):
+        progress_bar.progress(i)
+        time.sleep(0.005)  # simulate progress for UX
+
     url = "https://dgidb.org/api/graphql"
     safe_name = json.dumps(input_val)
 
@@ -149,14 +158,18 @@ if st.session_state["searched"] and input_val:
             if interactions:
                 st.session_state["df"] = pd.DataFrame(interactions)
                 st.session_state["valid_search"] = True
+                st.success("✅ Search completed! Use the sidebar to explore results.")
             else:
                 st.session_state["valid_search"] = False
+                st.warning("⚠️ No interactions found.")
         else:
             st.session_state["valid_search"] = False
             st.error(f"❌ API request failed with status code {response.status_code}")
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
+
 
 
 

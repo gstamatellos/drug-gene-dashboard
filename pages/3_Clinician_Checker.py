@@ -270,7 +270,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
         with col2:
             with st.expander("📊 Evidence levels explained"):
                 st.markdown("""
-                **Evidence Level Summary (PharmGKB)**
+                **Evidence Level Summary (ClinPGx)**
                 
                 - **1A**: Clinical guideline or FDA label + supporting publication
                 - **1B**: High-quality evidence from ≥2 independent studies
@@ -285,18 +285,17 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
         with col3:
             with st.expander("🎨 Color coding"):
                 st.markdown("""
-                **High evidence (1A-2A) rows are color-coded:**
+                **High evidence (1A to 2B) rows are color-coded:**
                 
                 - 🟥 **Red**: Toxicity concerns
                 - 🟩 **Green**: Efficacy impacts
                 - 🟨 **Yellow**: Dosage adjustments
-                - ⬜ **White**: Other categories or lower evidence
                 """)
 
     else:
         st.markdown("---")
         st.warning(f"⚠️ No variant annotations found for **'{search_term}'**. Try another search term.")
-        st.info("💡 **Tips**\n- Check spelling\n- Try a different search type\n- Use generic drug names (e.g., 'paracetamol' instead of 'Depon')")
+        st.info("💡 **Tips**\n- Check spelling\n- Try a different search type\n- Use generic drug names (e.g., 'acetaminophen' instead of 'Depon')")
 
 elif st.session_state.clinic_search_triggered and not st.session_state.clinic_last_searched:
     st.info("🔍 Please enter a search term and click Search.")

@@ -143,6 +143,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
             st.markdown("\n\n".join(summary_parts))
             st.markdown("---")
 
+            
         # --- 2. Recommended Gene Panel (Drug/Disease only) ---
         if current_type in ["Drug", "Disease/Phenotype"]:
             st.markdown("### 🧬 Recommended Gene Panel")
@@ -160,7 +161,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                 priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4}
                 gene_group['priority'] = gene_group['Evidence Level'].map(priority)
                 gene_group = gene_group.sort_values('priority')
-
+                
                 for idx, row in gene_group.iterrows():
                     if current_type == "Disease/Phenotype":
                         st.markdown(f"**{idx+1}.** **{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
@@ -171,7 +172,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                                   f"   • Variants: {row['Variant']}")
             else:
                 st.info("No genes with high evidence (1A, 1B, 2A, 2B) found for this search.")
-            st.markdown("---")
+
 
         # --- 3. Associations Table ---
         st.markdown("### 📊 Detailed Associations Table")

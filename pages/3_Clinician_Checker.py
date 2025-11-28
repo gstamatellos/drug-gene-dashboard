@@ -124,29 +124,33 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
         # --- Recommended Gene Panel (only for Drug and Disease searches) ---
         if search_type in ["Drug", "Disease/Phenotype"]:
             st.markdown("### 🧬 Recommended Gene Panel")
-            gene_rows = matched[['Gene', 'Evidence Level', 'Drug']].dropna()
-            if not gene_rows.empty:
-                # For each gene, show strongest evidence
-                best_levels = (
-                    gene_rows.groupby('Gene')['Evidence Level']
-                    .apply(lambda x: x.mode()[0])
-                    .reset_index()
-                )
+            st.markdown("_Panel generated from variants with Evidence Level 1A, 1B, 2A, 2B only._")
+            
+            # Keep only clinically significant variants
+            panel_df = matched[matched["Evidence Level"].isin(["1A","1B","2A","2B"])].copy()
+            
+            if not panel_df.empty:
+                # Group by gene, aggregate variants (and drugs for disease)
+                gene_group = panel_df.groupby('Gene').agg({
+                    'Variant': lambda x: ", ".join(sorted(set(x))),
+                    'Drug': lambda x: ", ".join(sorted(set(x))),
+                    'Evidence Level': lambda x: x.mode()[0]
+                }).reset_index()
 
-                priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4, "3": 5}
-                best_levels['priority'] = best_levels['Evidence Level'].map(priority)
-                best_levels = best_levels.sort_values('priority')
+                # Sort by Evidence Level priority
+                priority = {"1A": 1, "1B": 2, "2A": 3, "2B": 4}
+                gene_group['priority'] = gene_group['Evidence Level'].map(priority)
+                gene_group = gene_group.sort_values('priority')
 
-                for _, row in best_levels.iterrows():
-                    # For disease searches, also list drugs associated with the gene
+                # Display
+                for _, row in gene_group.iterrows():
                     if search_type == "Disease/Phenotype":
-                        drugs_for_gene = gene_rows[gene_rows['Gene'] == row['Gene']]['Drug'].unique()
-                        drugs_str = ", ".join(drugs_for_gene)
-                        st.markdown(f"- **{row['Gene']}** — evidence: *{row['Evidence Level']}* — Drugs: {drugs_str}")
-                    else:
-                        st.markdown(f"- **{row['Gene']}** — evidence: *{row['Evidence Level']}*")
+                        drugs_for_gene = row['Drug']
+                        st.markdown(f"- **{row['Gene']}** — variants: {row['Variant']} — Drugs: {drugs_for_gene}")
+                    else:  # Drug search
+                        st.markdown(f"- **{row['Gene']}** — variants: {row['Variant']}")
             else:
-                st.info("No genes found for this search.")
+                st.info("No genes with high evidence found for this search.")
 
         # --- Summary counts ---
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]

@@ -9,8 +9,6 @@ Check if a prescribed drug has **associated genetic variants** that affect patie
 Data is sourced from **ClinPGx clinical annotations.**
 """)
 
-st.markdown("---")
-
 # ------------------------------
 # --- Session State Fix -------
 # ------------------------------
@@ -102,11 +100,10 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
     if not matched.empty:
         st.markdown(" ")
         st.success(f"Found {len(matched)} variant annotations for **{search_input.title()}**")
-        st.markdown("---")
         
-
         # --- Recommended Gene Panel (only for Drug and Disease searches) ---
         if search_type in ["Drug", "Disease/Phenotype"]:
+            st.markdown("---")
             st.markdown("### Recommended Gene Panel")
             st.markdown("_Panel generated from variants with Evidence Level 1A, 1B, 2A, 2B only._")
             
@@ -136,7 +133,8 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
             else:
                 st.info("No genes with high evidence found for this search.")
 
-        st.markdown("---")
+            st.markdown("---")  # separator before summary
+
         # --- Summary counts ---
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]
 
@@ -156,6 +154,7 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
         ]
 
         st.markdown("### 🔎 Summary")
+
         # --- Filters ---
         with st.expander("🔍 Filter results"):
             pheno_filter = st.multiselect(
@@ -231,3 +230,4 @@ if st.session_state.search_triggered and st.session_state.saved_input.strip() !=
 
     else:
         st.warning(f"No variant annotations found for '{search_input}'. Try another term.")
+

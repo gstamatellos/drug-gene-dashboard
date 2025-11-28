@@ -76,9 +76,9 @@ if search_button:
 
 
 # ------------------------------
-# --- Only show results if search triggered ---
+# --- Only show results if search triggered AND input is non-empty ---
 # ------------------------------
-if st.session_state.search_triggered:
+if st.session_state.search_triggered and st.session_state.saved_input.strip() != "":
     search_input = st.session_state.saved_input
     search_type = st.session_state.saved_type
 

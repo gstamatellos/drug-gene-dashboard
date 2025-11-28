@@ -5,7 +5,7 @@ import json
 import time
 
 # --- Browser tab title and full-width layout ---
-st.set_page_config(page_title="Home | PharmXplorer", layout="wide")
+st.set_page_config(page_title="Home", layout="wide")
 st.image("data/home_image.png")
 st.title("Welcome to Drug ⇄ Gene Interaction Explorer")
 
@@ -25,7 +25,6 @@ st.markdown(
     "Quickly check patient safety and pharmacogenomic variants associated with a drug."
 )
 if st.button("Go to Clinician Safety Checker"):
-    # Set a flag in session state
     st.session_state["goto_clinician_checker"] = True
     st.info("Please click the sidebar page **Clinician Safety Checker** to continue!")
 
@@ -70,7 +69,7 @@ if search_triggered:
     if not input_val:
         st.warning("Please type a drug or gene name before searching.")
     else:
-        input_val = input_val.upper()  # standardize
+        input_val = input_val.upper()  # <-- Convert to uppercase for API
         # Save input in session_state
         if mode == "Drug":
             st.session_state["drug_input"] = input_val
@@ -87,7 +86,7 @@ if st.session_state.get("searched", False) and input_val:
         time.sleep(0.005)  # simulate progress for UX
 
     url = "https://dgidb.org/api/graphql"
-    safe_name = json.dumps(input_val)
+    safe_name = json.dumps(input_val)  # GraphQL-safe
 
     if mode == "Drug":
         query = f"""
@@ -168,6 +167,7 @@ if st.session_state.get("searched", False) and input_val:
     except Exception as e:
         st.session_state["valid_search"] = False
         st.error(f"❌ API request error: {e}")
+
 
 
 

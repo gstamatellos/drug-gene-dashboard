@@ -8,31 +8,26 @@ st.set_page_config(page_title="PharmXplorer", layout="wide")
 st.image("data/home_image.png")
 st.title("Welcome to Drug ⇄ Gene Interaction Explorer")
 
-# --- Sidebar: Navigation ---
-with st.sidebar:
-    st.header("Navigation")
-    st.markdown("🏠 **Home**")  # Home label
-
-    # Button to go to Clinician Safety Checker
-    if st.button("🩺 Go to Clinician Safety Checker"):
-        # Multipage app: redirect to Clinician Checker
-        st.experimental_set_query_params(page="Clinician_Checker")
-
 # --- Intro text ---
 st.markdown("""
-This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API and **pharmacogenomic variant-drug annotations** data from [ClinPGx](https://www.clinpgx.org/).
+This app allows you to search **drug–gene interactions** from the [DGIdb](https://dgidb.org) API 
+and **pharmacogenomic variant-drug annotations** data from [ClinPGx](https://www.clinpgx.org/).
 
-After searching, use the sidebar to explore:
+After searching, you can explore:
 - **Results Tables** 
 - **Interaction - Annotation Visuals**  
-
-**New feature: Clinician Safety Checker**  
-Use the sidebar button 🩺 to navigate there directly!
 """)
 
-# ------------------------------
-# --- Session State Initialization ---
-# ------------------------------
+# --- Clinician Safety Checker button in main page ---
+st.markdown("### 🩺 Clinician Safety Checker")
+st.markdown("Quickly check patient safety and pharmacogenomic variants associated with a drug.")
+if st.button("Go to Clinician Safety Checker"):
+    # Redirect to the multipage Clinician Checker
+    st.experimental_set_query_params(page="Clinician_Checker")
+
+st.markdown("---")
+
+# --- Initialize session state for inputs ---
 if "mode" not in st.session_state:
     st.session_state["mode"] = "Drug"
 if "gene_input" not in st.session_state:

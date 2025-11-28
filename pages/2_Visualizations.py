@@ -32,7 +32,7 @@ else:
     input_val = st.session_state.get("last_searched_drug", st.session_state.get("drug_input", ""))
 
 # Display what results are being shown
-st.info(f"📊 Currently viewing results for: **{input_val}** ({mode} search)")
+st.info(f"📊 Currently viewing results for: **{input_val}**")
 
 st.subheader("Top Interactions by Score")
 
@@ -155,4 +155,5 @@ if mode == "Drug":
 else:
     st.info("Pharmacogenomic annotations are only available for drug searches.")
     st.stop()
+
 

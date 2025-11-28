@@ -161,17 +161,16 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                 gene_group['priority'] = gene_group['Evidence Level'].map(priority)
                 gene_group = gene_group.sort_values('priority')
 
-                for _, row in gene_group.iterrows():
+                for idx, row in gene_group.iterrows():
                     if current_type == "Disease/Phenotype":
-                        st.markdown(f"**{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
-                              f"   • Variants: {row['Variant']}  \n"
-                              f"   • Associated drugs: {row['Drug']}")
+                        st.markdown(f"**{idx+1}.** **{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
+                                  f"   • Variants: {row['Variant']}  \n"
+                                  f"   • Associated drugs: {row['Drug']}")
                     else:
-                        st.markdown(f"**{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
-                              f"   • Variants: {row['Variant']}")
+                        st.markdown(f"**{idx+1}.** **{row['Gene']}** (Evidence: {row['Evidence Level']})  \n"
+                                  f"   • Variants: {row['Variant']}")
             else:
                 st.info("No genes with high evidence (1A, 1B, 2A, 2B) found for this search.")
-
             st.markdown("---")
 
         # --- 3. Associations Table ---

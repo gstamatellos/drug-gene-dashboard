@@ -46,11 +46,17 @@ def load_annotations():
 annotations_df = load_annotations()
 
 # --- Search type selection ---
+prev_search_type = st.session_state.get("clinic_type", "Drug")
 search_type = st.radio(
     "Search by:",
     ["Drug", "Disease/Phenotype", "Gene"],
     horizontal=True,
 )
+
+# Reset search if type changed
+if search_type != prev_search_type:
+    st.session_state.clinic_search_triggered = False
+    st.session_state.clinic_last_searched = ""
 
 # Store search type
 st.session_state.clinic_type = search_type

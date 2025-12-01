@@ -182,7 +182,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
         st.markdown("---")
         
         # --- 3. Associations Table ---
-        st.markdown("### 📊 Detailed Associations Table")
+        st.markdown("📊 Detailed Associations Table")
 
         # Calculate metrics
         high_ev = matched[matched["Evidence Level"].isin(["1A", "1B", "2A"])]

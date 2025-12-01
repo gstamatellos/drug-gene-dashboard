@@ -88,14 +88,14 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
     search_term = st.session_state.clinic_last_searched
     current_type = st.session_state.clinic_type
     
-    # --- Search logic ---
+    # --- Search logic with exact matching for all types ---
     if current_type == "Drug":
         matched = annotations_df[
             annotations_df["Drug"].str.lower() == search_term.lower()
         ]
     elif current_type == "Disease/Phenotype":
         matched = annotations_df[
-            annotations_df["Note"].str.lower().str.contains(search_term.lower(), na=False)
+            annotations_df["Note"].str.lower() == search_term.lower()
         ]
     else:  # Gene search
         matched = annotations_df[

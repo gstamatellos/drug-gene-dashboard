@@ -180,7 +180,7 @@ if st.session_state.clinic_search_triggered and st.session_state.clinic_last_sea
                 st.info("No genes with high evidence (1A, 1B, 2A, 2B) found for this search.")
         
         
-        st.markdown("---")
+        
         
         # --- 3. Associations Table ---
         st.markdown("### 📊 Detailed Associations Table")
